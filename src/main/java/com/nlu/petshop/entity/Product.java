@@ -1,61 +1,90 @@
 package com.nlu.petshop.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import java.util.Date;
 
-@Entity
-@Table(name = "products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Entity
+@Table(name = "products")
 public class Product {
 
     @Id
-    @Column(name = "product_id")
-    private String productId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    private String productName;
-    private int status;
-    private String image;
-    private int price;
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
 
-    @Column(name = "promotional_price")
-    private int promotionalPrice;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
-    private String quantity;
-    private int warranty;
-    private int promotional;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(columnDefinition = "TEXT")
-    private String dital;
+    @Column(name = "detail", columnDefinition = "LONGTEXT")
+    private String detail;
 
-    private String createBy;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    private LocalDateTime createDate;
-    private String updateBy;
-    private LocalDateTime updateDate;
+    @Column(name = "image", length = 500)
+    private String image;
 
+    @Column(name = "sale_price")
+    private Double salePrice;
+
+    @Column(name = "status", length = 50)
+    private String status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at", nullable = false)
+    private Date updatedAt;
+
+    @Column(length = 255)
     private String giong;
+
+    @Column(length = 255)
     private String mausac;
+
+    @Column(length = 255)
     private String cannang;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "sale_id", referencedColumnName = "id")
-//    private ProductSale sales;
-
-    private int quantityCart;
-    private int quantityWishlist;
-
-    private String cate_id;
-    private int viewCount;
+    @Column(length = 40)
     private String size;
 
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<ImageProduct> images;
+    @Column(name = "view_count")
+    private Integer viewCount;
+
+    @Column
+    private Integer warranty;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+        updatedAt = new Date();
+        if (status == null) {
+            status = "active";
+        }
+        if (viewCount == null) {
+            viewCount = 0;
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
+    }
 }
