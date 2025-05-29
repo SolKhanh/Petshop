@@ -6,7 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "admin_roles")
+@Table(name = "adminpermission")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,10 +14,9 @@ import java.io.Serializable;
 @ToString
 public class AdminRole implements Serializable {
 
-    @Id
-    @Column(name = "table_name", nullable = false)
-    private String tableName;
+    @EmbeddedId
+    private AdminRoleId id;
 
     @Column(name = "permission", nullable = false)
-    private int permission;
+    private int permission; // 1: thêm; 2: sửa; 3: xóa
 }
