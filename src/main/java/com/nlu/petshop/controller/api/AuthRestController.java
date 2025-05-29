@@ -1,8 +1,11 @@
 package com.nlu.petshop.controller.api;
 
-import com.nlu.petshop.dto.UserRegisterDTO;
+import com.nlu.petshop.dto.request.LoginRequestDTO;
+import com.nlu.petshop.dto.request.UserRegisterDTO;
+import com.nlu.petshop.dto.response.UserResponseDTO;
 import com.nlu.petshop.entity.UserAccount;
 import com.nlu.petshop.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,10 @@ public class AuthRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRegisterDTO dto) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO dto) {
         UserAccount user = authService.login(dto.getUsername(), dto.getPassword());
-        return ResponseEntity.ok(user); // Return user info for now, can replace with JWT later
+        UserResponseDTO responseDto = authService.convertToUserResponseDTO(user);
+        //sau này sẽ trả về JWT Token
+        return ResponseEntity.ok(responseDto);
     }
 }

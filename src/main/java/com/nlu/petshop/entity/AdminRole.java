@@ -17,6 +17,4 @@ public class AdminRole implements Serializable {
     @EmbeddedId
     private AdminRoleId id;
 
-    @Column(name = "permission", nullable = false)
-    private int permission; // 1: thêm; 2: sửa; 3: xóa
 }

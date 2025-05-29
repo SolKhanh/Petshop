@@ -1,7 +1,9 @@
 package com.nlu.petshop.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
@@ -9,14 +11,15 @@ import java.util.Set;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_account")
 public class UserAccount {
-
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Setter
     @Column(name = "user_name", unique = true, nullable = false)
     private String username;
 
@@ -24,11 +27,17 @@ public class UserAccount {
     private String password;
 
     @Column(name = "status")
-    private int status;
+    private int status; //1 = active, 0 = inactive
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> userRoles = new HashSet<>();
 
-    // Getters and Setters
-
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
