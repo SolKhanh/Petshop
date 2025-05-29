@@ -1,11 +1,12 @@
 package com.nlu.petshop.repository;
 
-import com.nlu.petshop.entity.UserAccount;
+import com.nlu.petshop.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+
 @Repository
-public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
-    Optional<UserAccount> findByUsername(String username);
+public interface CartRepository extends JpaRepository<Cart, Long> {
+    Optional<Cart> findByUserId(Long userId);
 }

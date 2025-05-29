@@ -1,6 +1,6 @@
 package com.nlu.petshop.controller.api;
 
-import com.nlu.petshop.dto.CategoryDTO;
+import com.nlu.petshop.dto.response.CategoryDTO;
 import com.nlu.petshop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

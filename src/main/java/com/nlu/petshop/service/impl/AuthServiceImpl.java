@@ -1,14 +1,16 @@
 package com.nlu.petshop.service.impl;
 
-import com.nlu.petshop.dto.UserRegisterDTO;
+import com.nlu.petshop.dto.request.UserRegisterDTO;
+import com.nlu.petshop.dto.response.UserResponseDTO;
 import com.nlu.petshop.entity.*;
 import com.nlu.petshop.repository.*;
 import com.nlu.petshop.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -22,7 +24,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserAccount register(UserRegisterDTO dto) {
         UserAccount user = new UserAccount();
-        user.setId(dto.getId());
         System.out.println("Username: " + dto.getUsername());
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -74,5 +75,19 @@ public class AuthServiceImpl implements AuthService {
         userRepo.save(user);
 
         return user;
+    }
+    public UserResponseDTO convertToUserResponseDTO(UserAccount user) {
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setStatus(user.getStatus());
+        // Lấy tên vai trò
+        if (user.getUserRoles() != null) {
+            Set<String> roleNames = user.getUserRoles().stream()
+                    .map(userRole -> userRole.getRole().getName())
+                    .collect(Collectors.toSet());
+            dto.setRoles(roleNames);
+        }
+        return dto;
     }
 }

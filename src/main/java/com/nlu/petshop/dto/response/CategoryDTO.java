@@ -1,4 +1,4 @@
-package com.nlu.petshop.dto;
+package com.nlu.petshop.dto.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

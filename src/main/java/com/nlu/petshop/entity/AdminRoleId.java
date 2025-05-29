@@ -21,6 +21,9 @@ public class AdminRoleId implements Serializable {
     @Column(name = "table_name")
     private String tableName;
 
+    @Column(name = "permission", nullable = false)
+    private int permission;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
