@@ -29,3 +29,11 @@ INSERT INTO products (name, price, description, detail, quantity, image, categor
                                                                                                                                                                                           ('Đồ Chơi Cho Chó – Banh Có Dây', 90000, 'Bóng được bện cùng dây thừng là đồ chơi đồng thời là đồ huấn luyện lý tưởng.', 'Đồ chơi giúp mèo vận động tốt hơn, giảm stress, tăng cường sức khỏe...', 50, 'img/products/phukien/sp1.jpg', 3, NULL, NULL, 'Nhiều màu', '0.5kg', NULL, 1, 'active', 0, NOW(), NOW()),
                                                                                                                                                                                           ('Đồ Chơi Cho Chó – Dạng Dây Thừng', 50000, 'Đồ chơi cho chó được thiết kế có tay cầm, dễ điều khiển.', 'Giúp tăng cường trí nhớ, quan sát tốt hơn, biết nguyên tắc vận hành...', 40, 'img/products/phukien/sp2.jpg', 3, NULL, NULL, 'Nhiều màu', '0.5kg', NULL, 1, 'active', 0, NOW(), NOW()),
                                                                                                                                                                                           ('Bàn Chải & Kem Vệ Sinh Răng Cho Chó Mèo', 100000, 'Vệ sinh mảng bám cho chó và mèo, an toàn.', 'Làm từ chất liệu cao cấp, an toàn cho răng chó và mèo...', 30, 'img/products/phukien/sp3.jpg', 3, NULL, NULL, 'Nhiều màu', '0.1kg', NULL, 1, 'active', 0, NOW(), NOW());
+
+-- collation
+ALTER DATABASE petshop_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+-- role
+INSERT INTO role (id, name) VALUES
+                                ('USER', 'User'),
+                                ('ADMIN', 'Admin');
