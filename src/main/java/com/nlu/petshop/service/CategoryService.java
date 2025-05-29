@@ -1,6 +1,6 @@
 package com.nlu.petshop.service;
 
-import com.nlu.petshop.dto.CategoryDTO;
+import com.nlu.petshop.dto.response.CategoryDTO;
 
 import java.util.List;
 

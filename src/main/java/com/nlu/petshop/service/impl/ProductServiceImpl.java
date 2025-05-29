@@ -1,6 +1,6 @@
 package com.nlu.petshop.service.impl;
 
-import com.nlu.petshop.dto.ProductDTO;
+import com.nlu.petshop.dto.response.ProductDTO;
 import com.nlu.petshop.entity.Product;
 import com.nlu.petshop.exception.ResourceNotFoundException;
 import com.nlu.petshop.repository.ProductRepository;

@@ -1,19 +1,17 @@
 -- XÓA DỮ LIỆU CŨ (THEO THỨ TỰ ĐẢO NGƯỢC KHÓA NGOẠI)
--- Chú ý: Bật các dòng này khi bạn muốn làm sạch và chèn lại dữ liệu mẫu trong quá trình phát triển.
--- Comment lại nếu bạn không muốn mất dữ liệu hiện có khi ứng dụng khởi động.
 
 -- Xóa các bảng nối trước
-DELETE FROM user_role;
--- DELETE FROM cart_items; -- (Nếu có bảng cart_items)
--- DELETE FROM order_details; -- (Nếu có bảng order_details)
-
--- Xóa các bảng chính có khóa ngoại trỏ tới (hoặc được trỏ tới bởi bảng khác)
--- DELETE FROM carts; -- (Nếu có bảng carts)
--- DELETE FROM orders; -- (Nếu có bảng orders)
-DELETE FROM products;
-DELETE FROM categories;
-DELETE FROM user_account WHERE user_name IN ('testuser', 'adminuser');
-DELETE FROM role WHERE id IN ('USER', 'ADMIN');
+# DELETE FROM user_role;
+# DELETE FROM cart_items; -- (Nếu có bảng cart_items)
+# DELETE FROM order_details; -- (Nếu có bảng order_details)
+#
+# -- Xóa các bảng chính có khóa ngoại trỏ tới (hoặc được trỏ tới bởi bảng khác)
+# DELETE FROM carts;
+# DELETE FROM orders;
+# DELETE FROM products;
+# DELETE FROM categories;
+# DELETE FROM user_account WHERE user_name IN ('testuser', 'adminuser', 'khanh', 'test', 'vidu' );
+# DELETE FROM role WHERE id IN ('USER', 'ADMIN');
 
 
 -- ĐẶT LẠI AUTO_INCREMENT (CHO CÁC BẢNG CÓ ID TỰ TĂNG)
@@ -22,10 +20,10 @@ ALTER TABLE categories AUTO_INCREMENT = 1;
 ALTER TABLE products AUTO_INCREMENT = 1;
 ALTER TABLE user_account AUTO_INCREMENT = 1;
 ALTER TABLE user_role AUTO_INCREMENT = 1;
--- ALTER TABLE carts AUTO_INCREMENT = 1;
--- ALTER TABLE cart_items AUTO_INCREMENT = 1;
--- ALTER TABLE orders AUTO_INCREMENT = 1;
--- ALTER TABLE order_details AUTO_INCREMENT = 1;
+ALTER TABLE carts AUTO_INCREMENT = 1;
+ALTER TABLE cart_items AUTO_INCREMENT = 1;
+ALTER TABLE orders AUTO_INCREMENT = 1;
+ALTER TABLE order_details AUTO_INCREMENT = 1;
 
 -- CHÈN DỮ LIỆU VÀO BẢNG CATEGORIES
 INSERT INTO categories (name, description) VALUES

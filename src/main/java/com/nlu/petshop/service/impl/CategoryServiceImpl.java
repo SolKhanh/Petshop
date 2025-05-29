@@ -1,6 +1,6 @@
 package com.nlu.petshop.service.impl;
 
-import com.nlu.petshop.dto.CategoryDTO;
+import com.nlu.petshop.dto.response.CategoryDTO;
 import com.nlu.petshop.entity.Category;
 import com.nlu.petshop.exception.ResourceNotFoundException;
 import com.nlu.petshop.repository.CategoryRepository;

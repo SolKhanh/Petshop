@@ -1,7 +1,7 @@
 package com.nlu.petshop.controller.web; // Hoặc package controller của bạn
 
-import com.nlu.petshop.dto.CategoryDTO;
-import com.nlu.petshop.dto.ProductDTO;
+import com.nlu.petshop.dto.response.CategoryDTO;
+import com.nlu.petshop.dto.response.ProductDTO;
 //import com.nlu.petshop.entity.UserAccount; // Entity UserAccount của bạn
 import com.nlu.petshop.service.CategoryService;
 import com.nlu.petshop.service.ProductService;
