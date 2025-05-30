@@ -32,6 +32,9 @@ public class UserAccount {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> userRoles = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private InforUser inforUser;
+
     @Override
     public String toString() {
         return "UserAccount{" +

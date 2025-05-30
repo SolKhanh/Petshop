@@ -29,6 +29,14 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setStatus(1);
 
+        // Tạo inforUser
+        InforUser infor = new InforUser();
+        infor.setIdUser(user.getId());
+        infor.setUser(user);
+        infor.setAvt("img/user/avatar.png"); // hoặc null
+
+        user.setInforUser(infor);
+
         userRepo.save(user);
 
         // Assign default role
