@@ -25,7 +25,7 @@ public class ProductPageController {
         this.productService = productService;
         // this.categoryService = categoryService;
     }
-    @GetMapping("/shop") // Hoặc URL bạn muốn cho trang danh sách sản phẩm
+    @GetMapping("/shop")
     public String shopPage(
             Model model,
             @RequestParam(name = "page", defaultValue = "0") int page, // Tham số trang, mặc định là trang 0

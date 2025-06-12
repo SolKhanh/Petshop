@@ -1,5 +1,6 @@
 package com.nlu.petshop.entity;
 
+import com.nlu.petshop.model.AccountStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,9 +26,9 @@ public class UserAccount {
 
     @Column(nullable = false)
     private String password;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private int status; //1 = active, 0 = inactive
+    private AccountStatus status;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> userRoles = new HashSet<>();

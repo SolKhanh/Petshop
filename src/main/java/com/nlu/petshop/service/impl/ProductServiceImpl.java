@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getQuantity(),
                 product.getImage(),
                 product.getSalePrice(),
-                product.getStatus(),
+                product.getStatus().name(),
                 product.getCreatedAt(),
                 product.getGiong(),
                 product.getMausac(),

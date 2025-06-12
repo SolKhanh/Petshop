@@ -1,7 +1,10 @@
 package com.nlu.petshop.entity;
 
+import com.nlu.petshop.model.PermissionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,9 +23,9 @@ public class AdminRoleId implements Serializable {
 
     @Column(name = "table_name")
     private String tableName;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "permission", nullable = false)
-    private int permission;
+    private PermissionType permission;
 
     @Override
     public boolean equals(Object o) {

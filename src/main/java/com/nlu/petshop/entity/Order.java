@@ -1,5 +1,6 @@
 package com.nlu.petshop.entity;
 
+import com.nlu.petshop.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,9 +30,9 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_date", nullable = false)
     private Date orderDate;
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String status;
+    private OrderStatus status;
 
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
@@ -70,7 +71,7 @@ public class Order {
         createdAt = new Date();
         updatedAt = new Date();
         if (status == null) {
-            status = "PENDING";
+            status = OrderStatus.PENDING;
         }
     }
 
