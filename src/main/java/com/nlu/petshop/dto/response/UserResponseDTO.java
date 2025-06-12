@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class UserResponseDTO {
     private Long id;
     private String username;
-    private int status;
+    private String status;
     // private String email;
     // private String name;
     // private String phone;
@@ -22,7 +22,7 @@ public class UserResponseDTO {
         UserResponseDTO dto = new UserResponseDTO();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setStatus(user.getStatus());
+        dto.setStatus(user.getStatus().name());
         // dto.setEmail(user.getEmail());
         // dto.setName(user.getName());
         // dto.setPhone(user.getPhone());

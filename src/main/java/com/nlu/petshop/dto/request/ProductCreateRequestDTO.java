@@ -1,5 +1,6 @@
 package com.nlu.petshop.dto.request;
 
+import com.nlu.petshop.model.ProductStatus;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -29,7 +30,7 @@ public class ProductCreateRequestDTO {
     private Double salePrice; //
 
     @NotBlank(message = "Trạng thái không được để trống")
-    private String status; //"active", "inactive"
+    private ProductStatus status; //"active", "inactive"
 
     private String giong;
     private String mausac;

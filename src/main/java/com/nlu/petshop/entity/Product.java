@@ -1,5 +1,6 @@
 package com.nlu.petshop.entity;
 
+import com.nlu.petshop.model.ProductStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,9 +38,9 @@ public class Product {
 
     @Column(name = "sale_price")
     private Double salePrice;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 50)
-    private String status;
+    private ProductStatus status;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -76,7 +77,7 @@ public class Product {
         createdAt = new Date();
         updatedAt = new Date();
         if (status == null) {
-            status = "active";
+            status = ProductStatus.ACTIVE;
         }
         if (viewCount == null) {
             viewCount = 0;

@@ -1,5 +1,6 @@
 package com.nlu.petshop.dto.request;
 
+import com.nlu.petshop.model.ProductStatus;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -22,7 +23,7 @@ public class ProductUpdateRequestDTO {
 
     private String image;
     private Double salePrice;
-    private String status;
+    private ProductStatus status;
     private String giong;
     private String mausac;
     private String cannang;

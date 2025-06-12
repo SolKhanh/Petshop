@@ -10,7 +10,9 @@ import com.nlu.petshop.entity.OrderDetail;
 import com.nlu.petshop.entity.Product;
 import com.nlu.petshop.entity.UserAccount;
 import com.nlu.petshop.exception.NotEnoughStockException;
+import com.nlu.petshop.exception.OrderNotFoundException;
 import com.nlu.petshop.exception.ProductNotFoundException;
+import com.nlu.petshop.model.OrderStatus;
 import com.nlu.petshop.repository.OrderRepository;
 import com.nlu.petshop.repository.ProductRepository;
 import com.nlu.petshop.repository.UserAccountRepository;
@@ -65,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
                 order.getId(),
                 userId,
                 order.getOrderDate(),
-                order.getStatus(),
+                order.getStatus().name(),
                 order.getTotalAmount(),
                 order.getCustomerName(),
                 order.getShippingAddress(),
@@ -150,5 +152,31 @@ public class OrderServiceImpl implements OrderService {
             throw new SecurityException("error.order.accessDenied");
         }
         return convertToOrderDTO(order);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<OrderDTO> getAllOrders(Pageable pageable) {
+        Page<Order> orderPage = orderRepository.findAll(pageable);
+        return orderPage.map(this::convertToOrderDTO);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrderDTO getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("error.order.notFound")); // Key cho messages.properties
+        return convertToOrderDTO(order);
+    }
+    @Override
+    @Transactional
+    public OrderDTO updateOrderStatus(Long orderId, OrderStatus newStatus) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("error.order.notFound"));
+
+        order.setStatus(newStatus);
+        Order updatedOrder = orderRepository.save(order);
+
+        return convertToOrderDTO(updatedOrder);
     }
 }

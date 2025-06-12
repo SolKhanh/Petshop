@@ -11,6 +11,7 @@ import com.nlu.petshop.entity.Product;
 import com.nlu.petshop.entity.UserAccount;
 import com.nlu.petshop.exception.ProductNotFoundException;
 import com.nlu.petshop.exception.NotEnoughStockException;
+import com.nlu.petshop.model.ProductStatus;
 import com.nlu.petshop.repository.CartItemRepository;
 import com.nlu.petshop.repository.CartRepository;
 import com.nlu.petshop.repository.ProductRepository;
@@ -96,7 +97,7 @@ public class CartServiceImpl implements CartService {
         Product product = productRepository.findById(requestDTO.getProductId())
                 .orElseThrow(() -> new ProductNotFoundException("error.product.notFound"));
 
-        if (!"active".equalsIgnoreCase(product.getStatus()) || product.getQuantity() == null || product.getQuantity() <= 0) {
+        if (product.getStatus() != ProductStatus.ACTIVE || product.getQuantity() == null || product.getQuantity() <= 0) {
             throw new NotEnoughStockException("error.product.outOfStock");
         }
 

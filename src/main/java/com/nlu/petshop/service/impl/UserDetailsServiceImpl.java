@@ -1,6 +1,7 @@
 package com.nlu.petshop.service.impl;
 
 import com.nlu.petshop.entity.UserAccount;
+import com.nlu.petshop.model.AccountStatus;
 import com.nlu.petshop.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getStatus() == 1, // enabled (true nếu status là 1)
+                user.getStatus() == AccountStatus.ACTIVE,
                 true,       // accountNonExpired
                 true,       // credentialsNonExpired
                 true,       // accountNonLocked

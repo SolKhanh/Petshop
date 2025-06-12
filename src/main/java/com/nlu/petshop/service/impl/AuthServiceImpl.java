@@ -4,6 +4,7 @@ import com.nlu.petshop.dto.request.UserProfileUpdateDTO;
 import com.nlu.petshop.dto.request.UserRegisterDTO;
 import com.nlu.petshop.dto.response.UserResponseDTO;
 import com.nlu.petshop.entity.*;
+import com.nlu.petshop.model.AccountStatus;
 import com.nlu.petshop.repository.*;
 import com.nlu.petshop.service.AuthService;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
         System.out.println("Username: " + dto.getUsername());
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setStatus(1);
+        user.setStatus(AccountStatus.ACTIVE);
 
         // Tạo inforUser
         InforUser infor = new InforUser();
@@ -81,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
         UserResponseDTO dto = new UserResponseDTO();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setStatus(user.getStatus());
+        dto.setStatus(user.getStatus().name());
         // Lấy tên vai trò
         if (user.getUserRoles() != null) {
             Set<String> roleNames = user.getUserRoles().stream()
