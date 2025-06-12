@@ -25,9 +25,8 @@ public class CartRestController {
         this.authService = authService;
     }
 
-    // PHƯƠNG THỨC TẠM THỜI ĐỂ LẤY USER ID - CẦN THAY THẾ BẰNG SPRING SECURITY SAU NÀY
     private Long getCurrentUserId() {
-         return 1L; //id user1
+         return authService.getCurrentUser().getId();
     }
 
     @GetMapping

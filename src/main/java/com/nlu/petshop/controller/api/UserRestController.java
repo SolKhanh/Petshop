@@ -1,9 +1,11 @@
 package com.nlu.petshop.controller.api;
 
+import com.nlu.petshop.dto.request.UserProfileUpdateDTO;
 import com.nlu.petshop.dto.request.UserRegisterDTO;
 import com.nlu.petshop.dto.response.UserResponseDTO;
 import com.nlu.petshop.entity.UserAccount;
 import com.nlu.petshop.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,11 @@ public class UserRestController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<?> updateUser(@RequestBody UserRegisterDTO dto) {
-        UserAccount updatedUser = authService.updateCurrentUser(dto);
-        UserResponseDTO res = authService.convertToUserResponseDTO(updatedUser);
-        return ResponseEntity.ok(res);
+    public ResponseEntity<UserResponseDTO> updateUserProfile(@Valid @RequestBody UserProfileUpdateDTO dto) {
+        // Lấy userId của người dùng đã đăng nhập từ SecurityContext
+        Long userId = authService.getCurrentUser().getId();
+
+        UserResponseDTO updatedUser = authService.updateUserProfile(userId, dto);
+        return ResponseEntity.ok(updatedUser);
     }
 }

@@ -1,14 +1,21 @@
 package com.nlu.petshop.service.impl;
 
+import com.nlu.petshop.dto.request.UserProfileUpdateDTO;
 import com.nlu.petshop.dto.request.UserRegisterDTO;
 import com.nlu.petshop.dto.response.UserResponseDTO;
 import com.nlu.petshop.entity.*;
 import com.nlu.petshop.repository.*;
 import com.nlu.petshop.service.AuthService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +26,8 @@ public class AuthServiceImpl implements AuthService {
     @Autowired private RoleRepository roleRepo;
     @Autowired private UserRoleRepository userRoleRepo;
     @Autowired private PasswordEncoder passwordEncoder;
-    private UserAccount user;
+    @Autowired private InforUserRepository inforUserRepo;
+//    private UserAccount user;
 
     @Override
     public UserAccount register(UserRegisterDTO dto) {
@@ -51,38 +59,23 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
-    @Override
-    public UserAccount login(String username, String password) {
-        // tạm thời chưa có JWT, chỉ check login
-        UserAccount user = userRepo.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+//    login đã xử lí trong controller
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-        this.user = user;
-        return user;
-    }
 
     @Override
     public UserAccount getCurrentUser() {
-        if (user == null) {
-            throw new RuntimeException("not logged in");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new IllegalStateException("Không có người dùng nào được xác thực.");
         }
-        return user;
+        String username = authentication.getName();
+        return userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Người dùng đã xác thực '" + username + "' không được tìm thấy trong CSDL."));
     }
 
     @Override
-    public UserAccount updateCurrentUser(UserRegisterDTO dto) {
-        if (user == null) {
-            throw new RuntimeException("not logged in");
-        }
-        this.user.setUsername(dto.getUsername());
-        this.user.setPassword(passwordEncoder.encode(dto.getPassword()));
-
-        userRepo.save(user);
-
-        return user;
+    public Optional<UserAccount> getUserByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
     public UserResponseDTO convertToUserResponseDTO(UserAccount user) {
         UserResponseDTO dto = new UserResponseDTO();
@@ -97,5 +90,29 @@ public class AuthServiceImpl implements AuthService {
             dto.setRoles(roleNames);
         }
         return dto;
+    }
+    @Override
+    @Transactional
+    public UserResponseDTO updateUserProfile(Long userId, UserProfileUpdateDTO dto) {
+        // Tìm UserAccount và InforUser liên quan
+        UserAccount user = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        InforUser inforUser = user.getInforUser();
+        if (inforUser == null) {
+            //nếu InforUser chưa được tạo
+            inforUser = new InforUser();
+            inforUser.setUser(user);
+        }
+
+        // Chỉ cập nhật các trường từ DTO mới
+        if (dto.getName() != null) inforUser.setName(dto.getName());
+        if (dto.getEmail() != null) inforUser.setEmail(dto.getEmail());
+        if (dto.getPhone() != null) inforUser.setPhone(dto.getPhone());
+        if (dto.getAddress() != null) inforUser.setAddress(dto.getAddress());
+        if (dto.getAvt() != null) inforUser.setAvt(dto.getAvt());
+
+        inforUserRepo.save(inforUser);
+
+        return convertToUserResponseDTO(user);
     }
 }

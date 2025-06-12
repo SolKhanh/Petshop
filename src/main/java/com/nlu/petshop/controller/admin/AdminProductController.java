@@ -13,11 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-// import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/admin/products")
-// @PreAuthorize("hasRole('ADMIN')") // tạo xong sercurity thì mới dùng
 public class AdminProductController {
 
     private final ProductService productService;
