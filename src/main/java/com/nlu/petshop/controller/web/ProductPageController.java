@@ -10,7 +10,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class ProductPageController {
@@ -54,44 +57,44 @@ public class ProductPageController {
         }
 
         model.addAttribute("productPage", productPage); // Đưa đối tượng Page vào model
-        model.addAttribute("pageTitle", "Cửa hàng sản phẩm");
+        model.addAttribute("pageTitle", "Sản phẩm");
 
         // model.addAttribute("categories", categoryService.getAllCategories());
 
         return "shop";
     }
-//    @GetMapping("/products/{productId}") // Ví dụ URL: /products/101
-//    public String productDetailPage(@PathVariable("productId") Integer productId, Model model /*, HttpSession session*/) {
-//        try {
-//            ProductDTO product = productService.getProductById(productId);
-//            model.addAttribute("product", product);
-//            model.addAttribute("pageTitle", product.getName()); // Đặt tiêu đề trang là tên sản phẩm
-//
-//            // Lấy sản phẩm liên quan
-//            if (product.getCategoryId() != null) {
-//                Pageable relatedProductsPageable = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "createdAt"));
-//                List<ProductDTO> relatedProducts = productService.getProductsByCategoryId(product.getCategoryId(), relatedProductsPageable)
-//                        .getContent()
-//                        .stream()
-//                        .filter(p -> !p.getId().equals(productId)) // Loại trừ sản phẩm hiện tại
-//                        .collect(java.util.stream.Collectors.toList());
-//                model.addAttribute("relatedProducts", relatedProducts);
-//            }
-//
-//            // Phần hình ảnh chi tiết (additionalImages) nếu có trong ProductDTO
-//            // model.addAttribute("productImages", product.getAdditionalImages());
-//
-//
-//            // Tạm thời chưa xử lý User, Comment, Lịch sử xem
-//            // UserAccount user = (UserAccount) session.getAttribute("user");
-//            // if (user != null) {
-//            // model.addAttribute("user", user);
-//            // }
-//
-//        } catch (RuntimeException e) {
-////            model.addAttribute("errorMessage", "Không tìm thấy sản phẩm bạn yêu cầu.");
-////            return "error-page"; // Trả về một trang lỗi chung (bạn cần tạo error-page.jsp)
-//        }
-//        return "product-details"; // Trả về /WEB-INF/views/product-details.jsp
-//    }
+    @GetMapping("/products/{productId}") // Ví dụ URL: /products/101
+    public String productDetailPage(@PathVariable("productId") Integer productId, Model model /*, HttpSession session*/) {
+        try {
+            ProductDTO product = productService.getProductById(productId);
+            model.addAttribute("product", product);
+            model.addAttribute("pageTitle", product.getName()); // Đặt tiêu đề trang là tên sản phẩm
+
+            // Lấy sản phẩm liên quan
+            if (product.getCategoryId() != null) {
+                Pageable relatedProductsPageable = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "createdAt"));
+                List<ProductDTO> relatedProducts = productService.getProductsByCategoryId(product.getCategoryId(), relatedProductsPageable)
+                        .getContent()
+                        .stream()
+                        .filter(p -> !p.getId().equals(productId)) // Loại trừ sản phẩm hiện tại
+                        .collect(java.util.stream.Collectors.toList());
+                model.addAttribute("relatedProducts", relatedProducts);
+            }
+
+            // Phần hình ảnh chi tiết (additionalImages) nếu có trong ProductDTO
+            // model.addAttribute("productImages", product.getAdditionalImages());
+
+
+            // Tạm thời chưa xử lý User, Comment, Lịch sử xem
+            // UserAccount user = (UserAccount) session.getAttribute("user");
+            // if (user != null) {
+            // model.addAttribute("user", user);
+            // }
+
+        } catch (RuntimeException e) {
+//            model.addAttribute("errorMessage", "Không tìm thấy sản phẩm bạn yêu cầu.");
+//            return "error-page"; // Trả về một trang lỗi chung (bạn cần tạo error-page.jsp)
+        }
+        return "product-details"; // Trả về /WEB-INF/views/product-details.jsp
+    }
 }

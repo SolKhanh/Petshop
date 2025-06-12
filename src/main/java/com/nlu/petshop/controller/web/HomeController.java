@@ -56,4 +56,14 @@ public class HomeController {
 
         return "index"; // Trả về tên file /WEB-INF/views/index.jsp
     }
+
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login"; // Trả về /WEB-INF/views/login.jsp
+    }
+
+    @GetMapping("/register")
+    public String showRegisterPage() {
+        return "register";
+    }
 }

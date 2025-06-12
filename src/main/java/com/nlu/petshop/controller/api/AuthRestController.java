@@ -5,6 +5,7 @@ import com.nlu.petshop.dto.request.UserRegisterDTO;
 import com.nlu.petshop.dto.response.UserResponseDTO;
 import com.nlu.petshop.entity.UserAccount;
 import com.nlu.petshop.service.AuthService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,16 @@ public class AuthRestController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO dto) {
         UserAccount user = authService.register(dto);
+
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO dto) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO dto, HttpSession session) {
         UserAccount user = authService.login(dto.getUsername(), dto.getPassword());
         UserResponseDTO responseDto = authService.convertToUserResponseDTO(user);
         //sau này sẽ trả về JWT Token
+        session.setAttribute("user", user);
         return ResponseEntity.ok(responseDto);
     }
 }
