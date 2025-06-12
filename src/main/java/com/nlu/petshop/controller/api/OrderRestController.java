@@ -29,9 +29,8 @@ public class OrderRestController {
         this.authService = authService;
     }
 
-    // PHƯƠNG THỨC TẠM THỜI ĐỂ LẤY USER ID - CẦN THAY THẾ BẰNG SPRING SECURITY SAU NÀY
     private Long getCurrentUserId() {
-         return 1L;
+         return authService.getCurrentUser().getId();
     }
 
 
