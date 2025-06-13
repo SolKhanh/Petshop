@@ -65,10 +65,10 @@ INSERT INTO role (id, name) VALUES
 ON DUPLICATE KEY UPDATE name = VALUES(name); -- Nếu ID (USER, ADMIN) đã tồn tại, cập nhật tên
 
 -- CHÈN DỮ LIỆU VÀO BẢNG USER_ACCOUNT
--- Mật khẩu '123' được mã hóa bằng BCrypt.
+-- Mật khẩu '123456' được mã hóa bằng BCrypt.
 INSERT INTO user_account (user_name, password, status) VALUES
-                                                           ('testuser', '$2a$10$abcdefghijklmnopqrstuv', 'ACTIVE'),
-                                                           ('adminuser', '$2a$10$uvwxyzabcdefghijklmnop', 'ACTIVE')
+                                                           ('testuser', '$2a$10$8fh0F5v5dTwHdHqnVpXZpejx4DXKC.5l6mbsCx4PFyDIiNzKt8cjC', 'ACTIVE'),
+                                                           ('adminuser', '$2a$10$8fh0F5v5dTwHdHqnVpXZpejx4DXKC.5l6mbsCx4PFyDIiNzKt8cjC', 'ACTIVE')
 ON DUPLICATE KEY UPDATE password = VALUES(password), status = VALUES(status);
 
 

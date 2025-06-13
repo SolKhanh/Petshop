@@ -23,7 +23,7 @@
                 </c:when>
                 <c:otherwise>
                     <a href="/api/users/me">
-                        <img src="${sessionScope.user.inforUser.avt}" alt="avatar" class="avatar-img">
+                        <img src="<c:url value='/${sessionScope.user.inforUser.avt}'/>" alt="avatar" class="avatar-img">
                     </a>
                 </c:otherwise>
             </c:choose>
