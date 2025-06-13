@@ -12,5 +12,4 @@ public interface AuthService {
     UserAccount getCurrentUser();
     Optional<UserAccount> getUserByUsername(String username);
     UserResponseDTO convertToUserResponseDTO(UserAccount user);
-    UserResponseDTO updateUserProfile(Long userId, UserProfileUpdateDTO dto);
 }

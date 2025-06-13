@@ -92,28 +92,5 @@ public class AuthServiceImpl implements AuthService {
         }
         return dto;
     }
-    @Override
-    @Transactional
-    public UserResponseDTO updateUserProfile(Long userId, UserProfileUpdateDTO dto) {
-        // Tìm UserAccount và InforUser liên quan
-        UserAccount user = userRepo.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        InforUser inforUser = user.getInforUser();
-        if (inforUser == null) {
-            //nếu InforUser chưa được tạo
-            inforUser = new InforUser();
-            inforUser.setUser(user);
-        }
 
-        // Chỉ cập nhật các trường từ DTO mới
-        if (dto.getName() != null) inforUser.setName(dto.getName());
-        if (dto.getEmail() != null) inforUser.setEmail(dto.getEmail());
-        if (dto.getPhone() != null) inforUser.setPhone(dto.getPhone());
-        if (dto.getAddress() != null) inforUser.setAddress(dto.getAddress());
-        if (dto.getAvt() != null) inforUser.setAvt(dto.getAvt());
-
-        inforUserRepo.save(inforUser);
-
-        return convertToUserResponseDTO(user);
-    }
 }
