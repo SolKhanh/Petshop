@@ -1,6 +1,7 @@
 package com.nlu.petshop.service.impl;
 
 import com.nlu.petshop.dto.request.ProductCreateRequestDTO;
+import com.nlu.petshop.dto.request.ProductFilterDTO;
 import com.nlu.petshop.dto.request.ProductUpdateRequestDTO;
 import com.nlu.petshop.dto.response.ProductDTO;
 import com.nlu.petshop.entity.Category;
@@ -82,6 +83,19 @@ public class ProductServiceImpl implements ProductService {
                     return new ResourceNotFoundException(message);
                 });
        return convertToDTO(product);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> searchAndFilterProducts(ProductFilterDTO filter, Pageable pageable) {
+        Page<Product> productPage = productRepository.searchAndFilterProducts(
+                filter.getKeyword(),
+                filter.getCategoryId(),
+                filter.getMinPrice(),
+                filter.getMaxPrice(),
+                pageable
+        );
+        return productPage.map(this::convertToDTO);
     }
 
     @Override
