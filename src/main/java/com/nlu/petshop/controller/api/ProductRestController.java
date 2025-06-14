@@ -1,5 +1,6 @@
 package com.nlu.petshop.controller.api;
 
+import com.nlu.petshop.dto.request.ProductFilterDTO;
 import com.nlu.petshop.dto.response.ProductDTO;
 import com.nlu.petshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,27 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> getAllProducts(
+    public ResponseEntity<Page<ProductDTO>> searchProducts(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,asc") String[] sort) {
+            @RequestParam(defaultValue = "9") int size,
+            @RequestParam(defaultValue = "name,asc") String[] sort) {
 
-        // Xử lý tham số sort (ví dụ: "name,desc" hoặc chỉ "name" thì mặc định là "asc")
-        Sort.Direction direction = Sort.Direction.fromString(sort.length > 1 ? sort[1] : "asc");
-        Sort.Order order = new Sort.Order(direction, sort[0]);
-        Pageable pageable = PageRequest.of(page, size, Sort.by(order));
+        ProductFilterDTO filter = new ProductFilterDTO();
+        filter.setKeyword(keyword);
+        filter.setCategoryId(categoryId);
+        filter.setMinPrice(minPrice);
+        filter.setMaxPrice(maxPrice);
 
-        Page<ProductDTO> productPage = productService.getAllProducts(pageable);
+        String sortField = sort[0];
+        Sort.Direction direction = sort.length > 1 && sort[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+
+        Page<ProductDTO> productPage = productService.searchAndFilterProducts(filter, pageable);
         return ResponseEntity.ok(productPage);
     }
 
