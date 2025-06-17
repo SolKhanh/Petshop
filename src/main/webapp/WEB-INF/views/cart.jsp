@@ -29,6 +29,9 @@
         <div id="cart-summary" class="mt-3" style="display: none;">
             <h5>Tổng số lượng: <span id="total-items-count"></span></h5>
             <h5>Tổng tiền: <span id="total-amount"></span> VND</h5>
+            <div id="checkout-button" class="mt-3" style="display: none;">
+                <button class="btn btn-success" onclick="redirectToCheckout()">🛒 Thanh toán</button>
+            </div>
         </div>
         <div id="cart-empty" class="alert alert-info" style="display: none;">
             Giỏ hàng của bạn đang trống.
@@ -102,6 +105,7 @@
 
                     document.getElementById("total-items-count").textContent = data.totalItemsCount.toLocaleString();
                     document.getElementById("total-amount").textContent = data.totalAmount.toLocaleString();
+                    document.getElementById("checkout-button").style.display = "block";
                 } else {
                     document.getElementById("cart-empty").style.display = "block";
                 }
@@ -112,6 +116,9 @@
                 document.getElementById("cart-empty").style.display = "block";
             });
     });
+    function redirectToCheckout() {
+        window.location.href = "/order";
+    }
 </script>
 </body>
 </html>

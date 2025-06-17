@@ -64,7 +64,7 @@
                     <div class="user-dropdown" id="userDropdown" style="display: none;">
                         <div class="user-trigger" id="userTrigger">
                             <img src="<c:url value='/img/user/avatar.png'/>" alt="avatar" id="avatarImg" class="avatar-img">
-                            <span class="user-name" id="userName">huynguyen456</span>
+                            <span class="user-name" id="userName"></span>
                             <i class="fas fa-chevron-down dropdown-icon"></i>
                         </div>
 
@@ -81,7 +81,7 @@
                                 <i class="fas fa-user-circle"></i>
                                 <span>Thông tin cá nhân</span>
                             </a>
-                            <a href="<c:url value='/orders'/>" class="dropdown-item">
+                            <a href="<c:url value='/order-history'/>" class="dropdown-item">
                                 <i class="fas fa-box"></i>
                                 <span>Đơn hàng của tôi</span>
                             </a>
@@ -680,9 +680,9 @@
                     userDropdown.style.display = "block";
 
                     // Update user info
-                    if (user.name) {
-                        userName.textContent = user.email; // First name only
-                        userNameFull.textContent = user.name;
+                    if (user.username) {
+                        userName.textContent = user.username; // First name only
+                        userNameFull.textContent = user.username;
                     }
                     if (user.email) {
                         userEmail.textContent = user.email;

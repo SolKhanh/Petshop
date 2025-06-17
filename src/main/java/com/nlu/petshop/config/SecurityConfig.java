@@ -50,7 +50,9 @@ public class SecurityConfig {
                                 "/register",
                                 "/profile",
                                 "/cart",
-                                "api/users/me/profile"
+                                "api/users/me/profile",
+                                "/order",
+                                "/orderhistory"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

@@ -76,4 +76,12 @@ public class HomeController {
     public String showCartPage() {
         return "cart";
     }
+
+    @GetMapping("/order")
+    public String showOrderPage() {
+        return "order";
+    }
+
+    @GetMapping("/orderhistory")
+    public String showOrdersPage() { return "orderhistory"; }
 }
