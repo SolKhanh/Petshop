@@ -74,19 +74,29 @@
 <script>
     $('.add-to-cart-btn').on('click', function () {
         var productId = $(this).data('product-id');
+        var jwtToken = localStorage.getItem('jwtToken'); // lấy token từ localStorage
+
         $.ajax({
             url: '/api/cart/items',
             type: 'POST',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken // thêm token vào header
+            },
             data: JSON.stringify({ productId: productId, quantity: 1 }),
             success: function () {
                 alert("Đã thêm sản phẩm vào giỏ hàng.");
             },
-            error: function () {
-                alert("Có lỗi khi thêm vào giỏ.");
+            error: function (xhr) {
+                if (xhr.status === 401 || xhr.status === 403) {
+                    alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.");
+                } else {
+                    alert("Có lỗi khi thêm vào giỏ.");
+                }
             }
         });
     });
 </script>
+
 </body>
 </html>
