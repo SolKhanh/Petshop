@@ -214,6 +214,7 @@
         });
 
         // Add to cart functionality (giữ nguyên script gốc)
+        var jwtToken = localStorage.getItem('jwtToken'); // lấy token từ localStorage
         $('.add-to-cart-btn').on('click', function() {
             var productId = $(this).data('product-id');
             var quantity = parseInt($('.qty-input').val()) || 1;
@@ -222,15 +223,19 @@
                 url: '/api/cart/items',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({
-                    productId: productId,
-                    quantity: quantity
-                }),
-                success: function(response) {
-                    alert("Sản phẩm đã được thêm vào giỏ hàng.");
+                headers: {
+                    'Authorization': 'Bearer ' + jwtToken // thêm token vào header
                 },
-                error: function(xhr, status, error) {
-                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ.");
+                data: JSON.stringify({ productId: productId, quantity: 1 }),
+                success: function () {
+                    alert("Đã thêm sản phẩm vào giỏ hàng.");
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401 || xhr.status === 403) {
+                        alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.");
+                    } else {
+                        alert("Có lỗi khi thêm vào giỏ.");
+                    }
                 }
             });
         });

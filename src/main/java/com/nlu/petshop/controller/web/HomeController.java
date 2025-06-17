@@ -66,4 +66,22 @@ public class HomeController {
     public String showRegisterPage() {
         return "register";
     }
+
+    @GetMapping("/profile")
+    public String showProfilePage() {
+        return "profile";
+    }
+
+    @GetMapping("/cart")
+    public String showCartPage() {
+        return "cart";
+    }
+
+    @GetMapping("/order")
+    public String showOrderPage() {
+        return "order";
+    }
+
+    @GetMapping("/orderhistory")
+    public String showOrdersPage() { return "orderhistory"; }
 }
