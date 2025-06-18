@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class AddToWishlistRequestDTO {
-    @NotNull(message = "Product ID không được để trống.")
+    @NotNull(message = "{NotNull.productId}")
     private Integer productId;
 }
