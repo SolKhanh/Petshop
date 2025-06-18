@@ -82,6 +82,6 @@ public class HomeController {
         return "order";
     }
 
-    @GetMapping("/order-history")
+    @GetMapping("/orderhistory")
     public String showOrdersPage() { return "orderhistory"; }
 }
