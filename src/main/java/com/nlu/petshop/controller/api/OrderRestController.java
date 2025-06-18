@@ -36,15 +36,9 @@ public class OrderRestController {
 
     @PostMapping
     public ResponseEntity<?> createOrder(@Valid @RequestBody CreateOrderRequestDTO requestDTO) {
-        try {
             Long userId = getCurrentUserId();
             OrderDTO order = orderService.createOrder(userId, requestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(order);
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
     }
 
     @GetMapping("/my-orders")
@@ -52,7 +46,6 @@ public class OrderRestController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "orderDate,desc") String[] sort) {
-        try {
             Long userId = getCurrentUserId();
 
             String sortField = sort[0];
@@ -64,26 +57,12 @@ public class OrderRestController {
 
             Page<OrderDTO> orderPage = orderService.getOrderHistoryForUser(userId, pageable);
             return ResponseEntity.ok(orderPage);
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi khi lấy lịch sử đơn hàng.");
-        }
     }
 
     @GetMapping("/{orderId}")
     public ResponseEntity<?> getMyOrderDetails(@PathVariable Long orderId) {
-        try {
             Long userId = getCurrentUserId();
             OrderDTO order = orderService.getOrderDetailsForUser(userId, orderId);
             return ResponseEntity.ok(order);
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        } catch (SecurityException se) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(se.getMessage());
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
     }
 }

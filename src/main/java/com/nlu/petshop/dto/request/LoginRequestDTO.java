@@ -5,11 +5,10 @@ import lombok.Data;
 
 @Data
 public class LoginRequestDTO {
-
-    @NotBlank(message = "Username không được để trống")
+    @NotBlank(message = "{NotBlank.username}")
     private String username;
 
-    @NotBlank(message = "Password không được để trống")
+    @NotBlank(message = "{NotBlank.password}")
     private String password;
 
 }

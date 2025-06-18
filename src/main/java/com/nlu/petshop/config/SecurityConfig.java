@@ -46,6 +46,7 @@ public class SecurityConfig {
                                 "/WEB-INF/views/**",
                                 "/login",
                                 "/register"
+
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

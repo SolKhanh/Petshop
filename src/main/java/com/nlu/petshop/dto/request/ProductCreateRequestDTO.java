@@ -6,38 +6,38 @@ import lombok.Data;
 
 @Data
 public class ProductCreateRequestDTO {
-    @NotBlank(message = "Tên sản phẩm không được để trống")
-    @Size(min = 3, max = 255, message = "Tên sản phẩm phải từ 3 đến 255 ký tự")
+    @NotBlank(message = "{NotBlank.productName}")
+    @Size(min = 3, max = 255, message = "{Size.productName}")
     private String name;
 
-    @NotNull(message = "Giá sản phẩm không được để trống")
-    @Positive(message = "Giá sản phẩm phải là số dương")
+    @NotNull(message = "{NotNull.price}")
+    @Positive(message = "{Positive.price}")
     private Double price;
 
-    @Size(max = 500, message = "Mô tả ngắn không quá 500 ký tự")
+    @Size(max = 500, message = "{Size.description}")
     private String description;
 
-    @NotNull(message = "Mô tả chi tiết không được để trống")
+    @NotNull(message = "{NotNull.detail}")
     private String detail;
 
-    @NotNull(message = "Số lượng không được để trống")
-    @Min(value = 0, message = "Số lượng không thể âm")
+    @NotNull(message = "{NotNull.quantity}")
+    @Min(value = 0, message = "{Min.quantity.nonNegative}")
     private Integer quantity;
 
-    @NotBlank(message = "Đường dẫn ảnh không được để trống")
-    private String image; //
+    @NotBlank(message = "{NotBlank.image}")
+    private String image;
 
-    private Double salePrice; //
+    private Double salePrice;
 
-    @NotBlank(message = "Trạng thái không được để trống")
-    private ProductStatus status; //"active", "inactive"
+    @NotNull(message = "{NotNull.productStatus}")
+    private ProductStatus status;
 
     private String giong;
     private String mausac;
     private String cannang;
     private String size;
-    private Integer warranty; // bảo hành (tháng)
+    private Integer warranty;
 
-    @NotNull(message = "ID danh mục không được để trống")
-    private Integer categoryId; //
+    @NotNull(message = "{NotNull.categoryId}")
+    private Integer categoryId;
 }

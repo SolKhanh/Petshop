@@ -11,6 +11,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +35,9 @@ public class AuthRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
+
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRegisterDTO dto) {
         UserAccount user = authService.register(dto);
@@ -43,7 +47,7 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto, HttpServletResponse response) {
-        // Xác thực thông tin người dùng
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword())
         );
@@ -53,6 +57,7 @@ public class AuthRestController {
 
         // Tạo JWT token
         String jwtToken = jwtService.generateToken(userDetails);
+
 
         // Tạo cookie và gắn token
         Cookie cookie = new Cookie("jwtToken", jwtToken);
@@ -80,4 +85,5 @@ public class AuthRestController {
         return ResponseEntity.ok("Đăng xuất thành công!");
     }
 
+=
 }

@@ -8,12 +8,11 @@ import lombok.Data;
 
 @Data
 public class CreateReviewRequestDTO {
-
-    @NotNull(message = "Đánh giá sao không được để trống.")
-    @Min(value = 1, message = "Đánh giá sao phải ít nhất là 1.")
-    @Max(value = 5, message = "Đánh giá sao không được nhiều hơn 5.")
+    @NotNull(message = "{NotNull.rating}")
+    @Min(value = 1, message = "{Min.rating}")
+    @Max(value = 5, message = "{Max.rating}")
     private Integer rating;
 
-    @Size(max = 1000, message = "Bình luận không được vượt quá 1000 ký tự.")
+    @Size(max = 1000, message = "{Size.comment}")
     private String comment;
 }
