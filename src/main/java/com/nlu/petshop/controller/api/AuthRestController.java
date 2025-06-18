@@ -47,7 +47,6 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto, HttpServletResponse response) {
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword())
         );
@@ -58,32 +57,26 @@ public class AuthRestController {
         // Tạo JWT token
         String jwtToken = jwtService.generateToken(userDetails);
 
+        Cookie jwtCookie = new Cookie("jwt_token", jwtToken);
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(false);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge((int) (jwtExpiration / 1000));
 
-        // Tạo cookie và gắn token
-        Cookie cookie = new Cookie("jwtToken", jwtToken);
-        cookie.setHttpOnly(true); // Ngăn JS đọc được cookie (bảo mật chống XSS)
-        cookie.setSecure(false); // ⚠️ Để true nếu chạy HTTPS (nên để true trong môi trường production)
-        cookie.setPath("/"); // Áp dụng cho toàn bộ domain
-        cookie.setMaxAge(3600000/1000); // Thời gian sống: 7 ngày
+        response.addCookie(jwtCookie);
 
-        // Đưa cookie vào response
-        response.addCookie(cookie);
-
-        // Trả về token nếu bạn vẫn cần dùng phía client (có thể bỏ nếu không cần)
         return ResponseEntity.ok(new AuthResponseDTO(jwtToken));
     }
+
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwtToken", null); // null hoặc ""
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false); // true nếu dùng HTTPS
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("jwt_token", null);
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Xóa cookie
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
 
         response.addCookie(cookie);
 
-        return ResponseEntity.ok("Đăng xuất thành công!");
+        return ResponseEntity.ok("Logout successful");
     }
-
-=
 }
