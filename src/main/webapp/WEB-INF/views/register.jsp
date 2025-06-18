@@ -4,6 +4,7 @@
 <head>
     <title>Đăng ký</title>
     <link rel="stylesheet" href="<c:url value='/css/user.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const form = document.querySelector(".user-form");
@@ -43,7 +44,7 @@
                 }
             });
         });
-    </script>z
+    </script>
 </head>
 <body>
 <div class="user-form-container">
@@ -72,5 +73,6 @@
         <p>Bạn đã có tài khoản? <a href="/login">Đăng nhập</a></p>
     </form>
 </div>
+<%@ include file="layout/footer.jsp" %>
 </body>
 </html>

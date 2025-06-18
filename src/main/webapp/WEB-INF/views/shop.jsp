@@ -9,13 +9,48 @@
     <meta charset="UTF-8">
     <title>${pageTitle} - PetShop</title>
     <link rel="stylesheet" href="<c:url value='/css/shop.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <fmt:setLocale value="vi_VN"/>
 
 <div class="shop-container">
     <h2 class="shop-title">Khám phá các sản phẩm mới nhất của chúng tôi</h2>
+    <div class="shop-content">
+        <!-- Sidebar bộ lọc -->
+        <aside class="shop-sidebar">
+            <form action="/shop" method="get" class="filter-form">
+                <!-- Filter theo Category -->
+                <div class="filter-group">
+                    <h4>Danh mục</h4>
+                    <c:forEach var="cat" items="${categories}">
+                        <label>
+                            <input type="radio" name="categoryId" value="${cat.id}"
+                                   <c:if test="${cat.id == selectedCategoryId}">checked</c:if> />
+                                ${cat.name}
+                        </label><br/>
+                    </c:forEach>
+                    <label>
+                        <input type="radio" name="categoryId" value="" <c:if test="${empty selectedCategoryId}">checked</c:if> />
+                        Tất cả
+                    </label>
+                </div>
 
+                <!-- Filter theo Giá -->
+                <div class="filter-group">
+                    <h4>Giá (VNĐ)</h4>
+                    <input type="number" name="minPrice" placeholder="Giá từ" value="${minPrice != null ? minPrice : ''}"/><br/>
+                    <input type="number" name="maxPrice" placeholder="Đến" value="${maxPrice != null ? maxPrice : ''}"/>
+                </div>
+
+                <button type="submit">Lọc</button>
+            </form>
+        </aside>
+
+        <!-- Danh sách sản phẩm -->
+        <div class="product-list">
+            <!-- Đoạn sản phẩm đã có của bạn -->
     <div class="product-list">
         <c:if test="${not empty productPage.content}">
             <c:forEach var="p" items="${productPage.content}">
@@ -69,7 +104,10 @@
         </c:if>
     </div>
 </div>
-
+</div>
+</div>
+<%@ include file="layout/footer.jsp" %>
+</body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $('.add-to-cart-btn').on('click', function () {
@@ -97,6 +135,4 @@
         });
     });
 </script>
-
-</body>
 </html>

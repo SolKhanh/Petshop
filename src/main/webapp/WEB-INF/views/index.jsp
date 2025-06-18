@@ -405,75 +405,7 @@
             object-fit: cover;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--dark-color);
-            color: white;
-            padding: 50px 0 20px;
-        }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .footer-section h5 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--secondary-color);
-        }
-
-        .footer-section p,
-        .footer-section li {
-            color: #ccc;
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--secondary-color);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #444;
-            padding-top: 20px;
-            text-align: center;
-            color: #999;
-        }
 
         /* Mobile Menu */
         .mobile-menu-overlay {
@@ -568,7 +500,7 @@
                     <a class="nav-link active" href="<c:url value='/'/>">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value='/products'/>">Sản phẩm</a>
+                    <a class="nav-link" href="<c:url value='/shop'/>">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value='/contact'/>">Liên Hệ</a>
@@ -694,52 +626,7 @@
 </section>
 
 <!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h5>Về PetShop</h5>
-                <p>Chúng tôi là cửa hàng thú cưng uy tín, cung cấp những sản phẩm chất lượng cao cho người bạn bốn chân của bạn.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h5>Liên Kết</h5>
-                <ul>
-                    <li><a href="<c:url value='/'/>">Trang chủ</a></li>
-                    <li><a href="<c:url value='/products'/>">Sản phẩm</a></li>
-                    <li><a href="<c:url value='/contact'/>">Liên hệ</a></li>
-                    <li><a href="#">Chính sách</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h5>Liên Hệ</h5>
-                <ul>
-                    <li><i class="fa fa-envelope"></i> contact@petshop.com</li>
-                    <li><i class="fa fa-phone"></i> (84) 123 456 789</li>
-                    <li><i class="fa fa-map-marker-alt"></i> Hồ Chí Minh, Việt Nam</li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h5>Chính Sách</h5>
-                <p>Miễn phí vận chuyển cho đơn hàng từ 500.000đ</p>
-                <p>Bảo hành chất lượng 100%</p>
-                <p>Hỗ trợ 24/7</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 PetShop. Tất cả quyền được bảo lưu.</p>
-        </div>
-    </div>
-</footer>
+<%@ include file="layout/footer.jsp" %>
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
