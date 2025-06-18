@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="layout/header.jsp"></jsp:include>
+
 <html>
 <head>
     <title>Thông tin cá nhân</title>
@@ -68,7 +69,6 @@
         <button class="btn btn-logout" onclick="logout()">Đăng xuất</button>
     </div>
 </div>
-<%@ include file="layout/footer.jsp" %>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const token = localStorage.getItem("jwtToken");
@@ -109,6 +109,6 @@
         window.location.href = "/login";
     }
 </script>
+<jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
 </html>
-<jsp:include page="layout/footer.jsp"></jsp:include>
