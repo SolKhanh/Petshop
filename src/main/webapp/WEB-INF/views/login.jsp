@@ -11,19 +11,26 @@
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            const response = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
+            try {
+                const response = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ username, password })
+                });
 
-            if (response.ok) {
-                const data = await response.json();
-                alert("Đăng nhập thành công: " + data.username);
-                window.location.href = "/shop";
-            } else {
-                const errorText = await response.text();
-                alert("Đăng nhập thất bại: " + errorText);
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem("jwtToken", data.token); // Lưu token
+                    alert("Đăng nhập thành công");
+                    window.location.href = "/shop"; // Chuyển đến trang chính
+                } else {
+                    const errorText = await response.text();
+                    alert("Đăng nhập thất bại: " + errorText);
+                }
+            } catch (error) {
+                alert("Lỗi kết nối máy chủ: " + error.message);
             }
         }
     </script>
