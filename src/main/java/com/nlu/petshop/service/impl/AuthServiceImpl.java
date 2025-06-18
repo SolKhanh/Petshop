@@ -83,6 +83,11 @@ public class AuthServiceImpl implements AuthService {
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setStatus(user.getStatus().name());
+        dto.setEmail(user.getInforUser().getEmail());
+        dto.setName(user.getInforUser().getName());
+        dto.setPhone(user.getInforUser().getPhone());
+        dto.setAddress(user.getInforUser().getAddress());
+        dto.setAvatar(user.getInforUser().getAvt());
         // Lấy tên vai trò
         if (user.getUserRoles() != null) {
             Set<String> roleNames = user.getUserRoles().stream()

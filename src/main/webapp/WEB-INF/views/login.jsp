@@ -4,6 +4,7 @@
 <head>
     <title>Đăng nhập</title>
     <link rel="stylesheet" href="<c:url value='/css/user.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
     <script>
         async function login(event) {
             event.preventDefault();
@@ -50,5 +51,6 @@
         <p>Bạn chưa có tài khoản? <a href="/register">Đăng ký ngay</a></p>
     </form>
 </div>
+<%@ include file="layout/footer.jsp" %>
 </body>
 </html>

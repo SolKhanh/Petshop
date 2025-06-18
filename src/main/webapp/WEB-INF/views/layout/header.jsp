@@ -1,5 +1,10 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="<c:url value='/js/auth-navigation.js'/>"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/header.css'/>" type="text/css">
+
 
 <!-- Header -->
 <header class="main-header">
@@ -30,10 +35,9 @@
             <div class="right-menu">
                 <!-- Cart -->
                 <div class="menu-item cart-item">
-                    <a href="<c:url value='/cart'/>" class="menu-link">
+                    <a class="menu-link" onclick="navigateWithAuth('/cart')">
                         <div class="icon-wrapper">
                             <i class="fas fa-shopping-cart"></i>
-<%--                            <span class="badge cart-count">0</span>--%>
                         </div>
                         <span class="menu-text">Giỏ hàng</span>
                     </a>
@@ -151,470 +155,7 @@
     </div>
 </header>
 
-<style>
-    :root {
-        --primary-color: #ff6b6b;
-        --secondary-color: #4ecdc4;
-        --accent-color: #45b7d1;
-        --dark-color: #2c3e50;
-        --light-color: #f8f9fa;
-        --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-        --shadow-soft: 0 4px 20px rgba(0,0,0,0.08);
-        --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
-        --border-radius: 12px;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
 
-    .main-header {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        box-shadow: var(--shadow-soft);
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        transition: var(--transition);
-    }
-
-    .main-header.scrolled {
-        background: rgba(255, 255, 255, 0.98);
-        box-shadow: var(--shadow-hover);
-    }
-
-    .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 0;
-        gap: 2rem;
-    }
-
-    /* Logo Section */
-    .logo-section .logo {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        gap: 0.75rem;
-        transition: var(--transition);
-    }
-
-    .logo img {
-        height: 45px;
-        width: 45px;
-        object-fit: contain;
-        border-radius: 8px;
-    }
-
-    .logo-text {
-        font-size: 1.5rem;
-        font-weight: 800;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .logo:hover {
-        transform: scale(1.05);
-    }
-
-    /* Search Section */
-    .search-section {
-        flex: 1;
-        max-width: 500px;
-        margin: 0 2rem;
-    }
-
-    .search-input-group {
-        position: relative;
-        display: flex;
-        align-items: center;
-        background: white;
-        border: 2px solid #e9ecef;
-        border-radius: var(--border-radius);
-        padding: 0.5rem 1rem;
-        transition: var(--transition);
-    }
-
-    .search-input-group:focus-within {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
-    }
-
-    .search-icon {
-        color: #6c757d;
-        margin-right: 0.75rem;
-    }
-
-    .search-input {
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 0.95rem;
-        background: transparent;
-    }
-
-    .search-input::placeholder {
-        color: #adb5bd;
-    }
-
-    .search-btn {
-        background: var(--gradient-primary);
-        border: none;
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        margin-left: 0.5rem;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .search-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-hover);
-    }
-
-    /* Right Menu */
-    .right-menu {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
-    .menu-item {
-        position: relative;
-    }
-
-    .menu-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: var(--dark-color);
-        transition: var(--transition);
-        padding: 0.5rem;
-        border-radius: 8px;
-    }
-
-    .menu-link:hover {
-        color: var(--primary-color);
-        background: rgba(255, 107, 107, 0.05);
-    }
-
-    .icon-wrapper {
-        position: relative;
-        margin-bottom: 0.25rem;
-    }
-
-    .icon-wrapper i {
-        font-size: 1.25rem;
-    }
-
-    .badge {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background: var(--gradient-primary);
-        color: white;
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 0.15rem 0.4rem;
-        border-radius: 10px;
-        min-width: 18px;
-        text-align: center;
-    }
-
-    .menu-text {
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    /* User Dropdown */
-    .user-dropdown {
-        position: relative;
-    }
-
-    .user-trigger {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .user-trigger:hover {
-        background: rgba(255, 107, 107, 0.05);
-    }
-
-    .avatar-img {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #e9ecef;
-    }
-
-    .user-name {
-        font-weight: 600;
-        color: var(--dark-color);
-    }
-
-    .dropdown-icon {
-        font-size: 0.8rem;
-        color: #6c757d;
-        transition: var(--transition);
-    }
-
-    .user-dropdown.active .dropdown-icon {
-        transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: white;
-        border-radius: var(--border-radius);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        min-width: 280px;
-        padding: 0.5rem 0;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: var(--transition);
-        z-index: 1000;
-    }
-
-    .user-dropdown.active .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .dropdown-header {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 1rem 1.25rem;
-    }
-
-    .dropdown-avatar {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .user-info {
-        flex: 1;
-    }
-
-    .user-name-full {
-        display: block;
-        font-weight: 700;
-        color: var(--dark-color);
-        margin-bottom: 0.25rem;
-    }
-
-    .user-email {
-        font-size: 0.85rem;
-        color: #6c757d;
-    }
-
-    .dropdown-divider {
-        height: 1px;
-        background: #e9ecef;
-        margin: 0.5rem 0;
-    }
-
-    .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1.25rem;
-        text-decoration: none;
-        color: var(--dark-color);
-        transition: var(--transition);
-    }
-
-    .dropdown-item:hover {
-        background: rgba(255, 107, 107, 0.05);
-        color: var(--primary-color);
-    }
-
-    .dropdown-item i {
-        width: 18px;
-        text-align: center;
-    }
-
-    .logout-item {
-        color: #dc3545;
-    }
-
-    .logout-item:hover {
-        background: rgba(220, 53, 69, 0.05);
-        color: #dc3545;
-    }
-
-    /* Mobile Menu Toggle */
-    .mobile-menu-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 4px;
-        cursor: pointer;
-        padding: 0.5rem;
-    }
-
-    .mobile-menu-toggle span {
-        width: 25px;
-        height: 3px;
-        background: var(--dark-color);
-        border-radius: 2px;
-        transition: var(--transition);
-    }
-
-    .mobile-menu-toggle.active span:nth-child(1) {
-        transform: rotate(45deg) translate(6px, 6px);
-    }
-
-    .mobile-menu-toggle.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .mobile-menu-toggle.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
-    }
-
-    /* Mobile Menu */
-    .mobile-menu {
-        position: fixed;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        box-shadow: var(--shadow-hover);
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition);
-        z-index: 999;
-    }
-
-    .mobile-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .mobile-menu-content {
-        padding: 1.5rem;
-    }
-
-    .mobile-search {
-        margin-bottom: 1.5rem;
-    }
-
-    .mobile-search-input {
-        display: flex;
-        align-items: center;
-        background: #f8f9fa;
-        border-radius: var(--border-radius);
-        padding: 0.75rem 1rem;
-        gap: 0.75rem;
-    }
-
-    .mobile-search-input i {
-        color: #6c757d;
-    }
-
-    .mobile-search-input input {
-        flex: 1;
-        border: none;
-        background: transparent;
-        outline: none;
-    }
-
-    .mobile-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .mobile-nav-item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1rem;
-        text-decoration: none;
-        color: var(--dark-color);
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-        position: relative;
-    }
-
-    .mobile-nav-item:hover {
-        background: rgba(255, 107, 107, 0.05);
-        color: var(--primary-color);
-    }
-
-    .mobile-cart-count {
-        position: absolute;
-        right: 1rem;
-        background: var(--gradient-primary);
-        color: white;
-        font-size: 0.7rem;
-        padding: 0.25rem 0.5rem;
-        border-radius: 10px;
-        min-width: 20px;
-        text-align: center;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .search-section {
-            display: none;
-        }
-
-        .right-menu .menu-text {
-            display: none;
-        }
-
-        .right-menu {
-            gap: 1rem;
-        }
-
-        .mobile-menu-toggle {
-            display: flex;
-        }
-
-        .user-dropdown .dropdown-menu {
-            right: -50px;
-            min-width: 250px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .header-content {
-            padding: 0.75rem 0;
-        }
-
-        .logo-text {
-            display: none;
-        }
-
-        .right-menu {
-            gap: 0.5rem;
-        }
-
-        .menu-link {
-            padding: 0.25rem;
-        }
-    }
-</style>
 
 <script>
     document.addEventListener("DOMContentLoaded", async function () {
@@ -674,6 +215,7 @@
 
                 if (res.ok) {
                     const user = await res.json();
+                    console.log(user);
 
                     // Hide login button, show user dropdown
                     loginBtn.style.display = "none";
@@ -682,7 +224,7 @@
                     // Update user info
                     if (user.username) {
                         userName.textContent = user.username; // First name only
-                        userNameFull.textContent = user.username;
+                        userNameFull.textContent = user.name;
                     }
                     if (user.email) {
                         userEmail.textContent = user.email;
@@ -779,7 +321,11 @@
     });
 
     function logout() {
-        localStorage.removeItem("jwtToken");
-        window.location.href = "/login";
+        fetch('/api/auth/logout', {
+            method: 'POST'
+        }).then(() => {
+            localStorage.removeItem("jwtToken"); // Nếu dùng thêm ở localStorage
+            window.location.href = "/login"; // Hoặc trang chủ
+        });
     }
 </script>

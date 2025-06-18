@@ -10,11 +10,11 @@ public class UserResponseDTO {
     private Long id;
     private String username;
     private String status;
-    // private String email;
-    // private String name;
-    // private String phone;
-    // private String address;
-    // private String avatar;
+     private String email;
+     private String name;
+     private String phone;
+     private String address;
+     private String avatar;
     private Set<String> roles;
 
     public static UserResponseDTO fromEntity(UserAccount user) {
@@ -23,11 +23,11 @@ public class UserResponseDTO {
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setStatus(user.getStatus().name());
-        // dto.setEmail(user.getEmail());
-        // dto.setName(user.getName());
-        // dto.setPhone(user.getPhone());
-        // dto.setAddress(user.getAddress());
-        // dto.setAvatar(user.getAvatar());
+         dto.setEmail(user.getInforUser().getEmail());
+         dto.setName(user.getInforUser().getName());
+         dto.setPhone(user.getInforUser().getPhone());
+         dto.setAddress(user.getInforUser().getAddress());
+         dto.setAvatar(user.getInforUser().getAvt());
 
         if (user.getUserRoles() != null) {
             dto.setRoles(user.getUserRoles().stream()

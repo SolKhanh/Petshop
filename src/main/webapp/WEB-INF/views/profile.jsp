@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Thông tin cá nhân</title>
+    <link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
     <style>
         .profile-container {
             max-width: 600px;
@@ -45,7 +46,6 @@
     </style>
 </head>
 <body>
-<a>hello world</a>
 <div class="profile-container">
     <div class="profile-header">
         <h2>Thông tin cá nhân</h2>
@@ -54,10 +54,13 @@
         <span class="profile-label">Tên đăng nhập: </span><span id="username"></span>
     </div>
     <div class="profile-row">
-        <span class="profile-label">Trạng thái: </span><span id="status"></span>
+        <span class="profile-label">Email: </span><span id="email"></span>
     </div>
     <div class="profile-row">
-        <span class="profile-label">Vai trò: </span><span id="roles"></span>
+        <span class="profile-label">Số điện thoại: </span><span id="phone"></span>
+    </div>
+    <div class="profile-row">
+        <span class="profile-label">Địa chỉ: </span><span id="address"></span>
     </div>
 
     <div class="profile-actions">
@@ -65,7 +68,7 @@
         <button class="btn btn-logout" onclick="logout()">Đăng xuất</button>
     </div>
 </div>
-
+<%@ include file="layout/footer.jsp" %>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const token = localStorage.getItem("jwtToken");
@@ -85,9 +88,11 @@
                 return response.json();
             })
             .then(data => {
+                console.log("user data: " + data);
                 document.getElementById("username").textContent = data.username;
-                document.getElementById("status").textContent = data.status;
-                document.getElementById("roles").textContent = data.roles.join(", ");
+                document.getElementById("email").textContent = data.email;
+                document.getElementById("phone").textContent = data.phone;
+                document.getElementById("address").textContent = data.address;
             })
             .catch(error => {
                 console.error(error);

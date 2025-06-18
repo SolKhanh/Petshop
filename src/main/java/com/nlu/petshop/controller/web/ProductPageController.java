@@ -1,6 +1,8 @@
 package com.nlu.petshop.controller.web;
 
+import com.nlu.petshop.dto.request.ProductFilterDTO;
 import com.nlu.petshop.dto.response.ProductDTO;
+import com.nlu.petshop.service.CategoryService;
 import com.nlu.petshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,48 +20,45 @@ import java.util.List;
 @Controller
 public class ProductPageController {
     private final ProductService productService;
-    // private final CategoryService categoryService;
+    @Autowired
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductPageController(ProductService productService) {
+    public ProductPageController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
-        // this.categoryService = categoryService;
+         this.categoryService = categoryService;
     }
     @GetMapping("/shop")
     public String shopPage(
             Model model,
-            @RequestParam(name = "page", defaultValue = "0") int page, // Tham số trang, mặc định là trang 0
-            @RequestParam(name = "size", defaultValue = "9") int size,  // Số sản phẩm mỗi trang, mặc định là 9
-            @RequestParam(name = "sort", defaultValue = "name,asc") String[] sort, // Tham số sắp xếp, ví dụ: name,asc hoặc price,desc
-            @RequestParam(name = "categoryId", required = false) Integer categoryId // Tham số categoryId (tùy chọn)
-            // Thêm các tham số khác nếu bạn có filter theo giá, size, etc.
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "9") int size,
+            @RequestParam(name = "sort", defaultValue = "name,asc") String[] sort,
+            @RequestParam(name = "categoryId", required = false) Integer categoryId,
+            @RequestParam(name = "minPrice", required = false) Double minPrice,
+            @RequestParam(name = "maxPrice", required = false) Double maxPrice
     ) {
-        // Xử lý sắp xếp
-        // Mặc định sort[0] là trường sắp xếp, sort[1] là hướng (asc/desc)
         String sortField = sort[0];
-        Sort.Direction direction = Sort.Direction.ASC; // Mặc định tăng dần
+        Sort.Direction direction = Sort.Direction.ASC;
         if (sort.length > 1 && sort[1].equalsIgnoreCase("desc")) {
             direction = Sort.Direction.DESC;
         }
-        Sort sortOrder = Sort.by(direction, sortField);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
 
-        Pageable pageable = PageRequest.of(page, size, sortOrder);
+        ProductFilterDTO filter = new ProductFilterDTO();
+        filter.setCategoryId(categoryId);
+        filter.setMinPrice(minPrice);
+        filter.setMaxPrice(maxPrice);
 
-        Page<ProductDTO> productPage;
+        Page<ProductDTO> productPage = productService.searchAndFilterProducts(filter, pageable);
 
-        if (categoryId != null) {
-            // Nếu có categoryId, lọc sản phẩm theo category
-            productPage = productService.getProductsByCategoryId(categoryId, pageable);
-            model.addAttribute("selectedCategoryId", categoryId); // Để JSP biết category nào đang được chọn
-        } else {
-            // Nếu không, lấy tất cả sản phẩm
-            productPage = productService.getAllProducts(pageable);
-        }
-
-        model.addAttribute("productPage", productPage); // Đưa đối tượng Page vào model
+        model.addAttribute("productPage", productPage);
         model.addAttribute("pageTitle", "Sản phẩm");
+        model.addAttribute("selectedCategoryId", categoryId);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
 
-        // model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllCategories()); // << Thêm dòng này
 
         return "shop";
     }
