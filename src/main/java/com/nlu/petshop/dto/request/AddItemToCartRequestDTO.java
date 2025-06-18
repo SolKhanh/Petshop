@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class AddItemToCartRequestDTO {
-    @NotNull(message = "Product ID không được để trống")
+    @NotNull(message = "{NotNull.productId}")
     private Integer productId;
 
-    @NotNull(message = "Số lượng không được để trống")
-    @Min(value = 1, message = "Số lượng phải ít nhất là 1")
+    @NotNull(message = "{NotNull.quantity}")
+    @Min(value = 1, message = "{Min.quantity}")
     private Integer quantity;
 }

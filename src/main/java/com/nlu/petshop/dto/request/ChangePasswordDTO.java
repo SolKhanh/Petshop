@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 public class ChangePasswordDTO {
-    @NotBlank(message = "{error.password.old.notblank}")
+    @NotBlank(message = "{NotBlank.oldPassword}")
     private String oldPassword;
 
-    @NotBlank(message = "{error.password.new.notblank}")
-    @Size(min = 6, max = 100, message = "{error.password.new.size}")
+    @NotBlank(message = "{NotBlank.newPassword}")
+    @Size(min = 6, max = 100, message = "{Size.password}")
     private String newPassword;
 
-    @NotBlank(message = "{error.password.confirm.notblank}")
+    @NotBlank(message = "{NotBlank.confirmNewPassword}")
     private String confirmNewPassword;
 }

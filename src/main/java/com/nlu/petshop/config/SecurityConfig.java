@@ -42,10 +42,17 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/", "/shop", "/products/**",
                                 "/api/products/**", "/api/categories/**",
+                                "api/cart",
+                                "api/cart/**",
                                 "/css/**", "/js/**", "/img/**", "/error",
                                 "/WEB-INF/views/**",
                                 "/login",
                                 "/register"
+//                                "/profile",
+//                                "/cart",
+//                                "api/users/me/profile",
+//                                "/order",
+//                                "/orderhistory"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

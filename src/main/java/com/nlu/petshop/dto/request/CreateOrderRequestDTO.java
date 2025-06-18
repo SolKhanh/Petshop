@@ -8,23 +8,23 @@ import lombok.Data;
 
 @Data
 public class CreateOrderRequestDTO {
-    @NotBlank(message = "Tên người nhận không được để trống")
-    @Size(max = 100, message = "Tên người nhận không quá 100 ký tự")
+    @NotBlank(message = "{NotBlank.customerName}")
+    @Size(max = 100, message = "{Size.customerName}")
     private String customerName;
 
-    @NotBlank(message = "Địa chỉ giao hàng không được để trống")
-    @Size(max = 255, message = "Địa chỉ không quá 255 ký tự")
+    @NotBlank(message = "{NotBlank.shippingAddress}")
+    @Size(max = 255, message = "{Size.shippingAddress}")
     private String shippingAddress;
 
-    @NotBlank(message = "Số điện thoại không được để trống")
-    @Pattern(regexp = "^(\\+84|0)\\d{9,10}$", message = "Số điện thoại không hợp lệ (VD: 09... hoặc +849...)")
+    @NotBlank(message = "{NotBlank.phone}")
+    @Pattern(regexp = "^(\\+84|0)\\d{9,10}$", message = "{Pattern.phone}")
     private String phone;
 
-    @NotBlank(message = "Email không được để trống")
-    @Email(message = "Email không hợp lệ")
-    @Size(max = 100, message = "Email không quá 100 ký tự")
+    @NotBlank(message = "{NotBlank.email}")
+    @Email(message = "{Email.invalid}")
+    @Size(max = 100, message = "{Size.email}")
     private String email;
 
-    @Size(max = 500, message = "Ghi chú không quá 500 ký tự")
+    @Size(max = 500, message = "{Size.note}")
     private String note;
 }
