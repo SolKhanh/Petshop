@@ -5,39 +5,8 @@
 <head>
     <title>Thanh toán</title>
     <link rel="stylesheet" href="<c:url value='/css/order.css'/>" />
-    <style>
-        .container {
-            /*max-width: 600px;*/
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        form label {
-            display: block;
-            margin-top: 10px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-        .submit-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            margin-top: 20px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .order {
-            margin-top: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value='/css/style.css'/>" />
+
 </head>
 <body>
 <div class="container">

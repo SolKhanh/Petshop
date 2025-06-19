@@ -39,11 +39,16 @@ public class AuthServiceImpl implements AuthService {
         user.setStatus(AccountStatus.ACTIVE);
 
         // Tạo inforUser
+        // Tạo inforUser và set thông tin từ dto
         InforUser infor = new InforUser();
-        infor.setIdUser(user.getId());
-        infor.setUser(user);
-        infor.setAvt("img/user/avatar.png"); // hoặc null
+        infor.setName(dto.getName());
+        infor.setEmail(dto.getEmail());
+        infor.setPhone(dto.getPhone());
+        infor.setAddress(dto.getAddress());
+        infor.setAvt(dto.getAvatar() != null ? dto.getAvatar() : "img/user/avatar.png");
 
+// Thiết lập liên kết 2 chiều
+        infor.setUser(user);
         user.setInforUser(infor);
 
         userRepo.save(user);

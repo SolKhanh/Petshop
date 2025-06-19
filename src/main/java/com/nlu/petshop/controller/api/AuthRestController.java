@@ -57,7 +57,7 @@ public class AuthRestController {
         // Tạo JWT token
         String jwtToken = jwtService.generateToken(userDetails);
 
-        Cookie jwtCookie = new Cookie("jwt_token", jwtToken);
+        Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
         jwtCookie.setHttpOnly(true);
         jwtCookie.setSecure(false);
         jwtCookie.setPath("/");
@@ -70,7 +70,7 @@ public class AuthRestController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt_token", null);
+        Cookie cookie = new Cookie("jwtToken", null);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);

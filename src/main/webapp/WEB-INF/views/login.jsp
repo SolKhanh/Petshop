@@ -28,7 +28,7 @@
                     window.location.href = "/shop"; // Chuyển đến trang chính
                 } else {
                     const errorText = await response.text();
-                    alert("Đăng nhập thất bại: " + errorText);
+                    alert("Tài khoản hoặc mât khẩu không đúng");
                 }
             } catch (error) {
                 alert("Lỗi kết nối máy chủ: " + error.message);

@@ -517,7 +517,7 @@
             <div class="hero-badge">PETSHOP YÊU THƯƠNG</div>
             <h1 class="hero-title">Thú Cưng<br>100% Khỏe Mạnh</h1>
             <p class="hero-subtitle">Miễn phí vận chuyển &amp; Bảo hành chất lượng</p>
-            <a href="<c:url value='/login'/>" class="btn btn-hero">Mua Ngay</a>
+            <a href="<c:url value='/shop'/>" class="btn btn-hero">Mua Ngay</a>
         </div>
     </div>
 </section>
