@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
                 order.getId(),
                 userId,
                 order.getOrderDate(),
-                order.getStatus().name(),
+                order.getStatus().getDisplayName(),
                 order.getTotalAmount(),
                 order.getCustomerName(),
                 order.getShippingAddress(),

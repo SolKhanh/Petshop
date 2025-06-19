@@ -205,7 +205,7 @@
                     <th>Số lượng</th>
                     <th>Giá</th>
                     <th>Tạm tính</th>
-                    <th>Hành động</th>
+                    <th> </th>
                 </tr>
                 </thead>
                 <tbody id="cart-body"></tbody>

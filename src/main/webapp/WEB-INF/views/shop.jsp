@@ -126,7 +126,10 @@
                 alert("Đã thêm sản phẩm vào giỏ hàng.");
             },
             error: function (xhr) {
-                if (xhr.status === 401 || xhr.status === 403) {
+                if (xhr.status === 500) {
+                    window.location.href = "/login";
+                }
+                else if (xhr.status === 401 || xhr.status === 403) {
                     alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.");
                 } else {
                     alert("Có lỗi khi thêm vào giỏ.");
