@@ -25,7 +25,7 @@
                 <ul>
                     <li><a href="<c:url value='/'/>">Trang chủ</a></li>
                     <li><a href="<c:url value='/shop'/>">Sản phẩm</a></li>
-                    <li><a href="<c:url value='/contact'/>">Liên hệ</a></li>
+                    <li><a href="<c:url value='/about'/>">About</a></li>
                     <li><a href="#">Chính sách</a></li>
                 </ul>
             </div>
