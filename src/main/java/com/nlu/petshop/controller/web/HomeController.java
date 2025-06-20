@@ -87,4 +87,7 @@ public class HomeController {
 
     @GetMapping("/update-profile")
     public String showUpdateProfilePage() { return "update-profile"; }
+
+    @GetMapping("/change-password")
+    public String showChangePwdPage() { return "change-password"; }
 }

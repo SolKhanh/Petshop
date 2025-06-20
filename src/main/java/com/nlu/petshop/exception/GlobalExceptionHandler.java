@@ -88,4 +88,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> body = createErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, errorMessage, request.getDescription(false));
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        String resolvedMessage = ex.getMessage(); // hoặc lấy từ messageSource nếu có key riêng
+        Map<String, Object> body = createErrorBody(HttpStatus.BAD_REQUEST, resolvedMessage, request.getDescription(false));
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
 }

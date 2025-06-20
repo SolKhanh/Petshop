@@ -59,16 +59,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     @Transactional
     public void changePassword(Long userId, ChangePasswordDTO dto) {
-        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
-            throw new IllegalArgumentException("Mật khẩu mới và mật khẩu xác nhận không khớp.");
-        }
-
         UserAccount user = userAccountRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("error.user.notFound"));
 
         // Xác thực mật khẩu cũ
         if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Mật khẩu cũ không chính xác.");
+        }
+
+        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
+            throw new IllegalArgumentException("Mật khẩu mới và mật khẩu xác nhận không khớp.");
         }
 
         // Cập nhật mật khẩu mới đã mã hóa

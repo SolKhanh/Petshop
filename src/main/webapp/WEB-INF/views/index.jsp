@@ -7,8 +7,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Pet Shop - Nơi tốt nhất cho thú cưng của bạn">
-    <meta name="keywords" content="PetShop, thú cưng, chó, mèo, phụ kiện">
+    <meta name="description" content="DePetz - Nơi tốt nhất cho thú cưng của bạn">
+    <meta name="keywords" content="DePetz, thú cưng, chó, mèo, phụ kiện">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pet Shop - Trang Chủ</title>
@@ -487,7 +487,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="<c:url value='/'/>">
-            <img src="<c:url value='/img/petshoplogo.jpg'/>" alt="PetShop Logo">
+            <img src="<c:url value='/img/petshoplogo.jpg'/>" alt="Logo">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -514,7 +514,7 @@
 <section class="hero">
     <div class="container">
         <div class="hero-content" data-aos="fade-up">
-            <div class="hero-badge">PETSHOP YÊU THƯƠNG</div>
+            <div class="hero-badge">DePetz</div>
             <h1 class="hero-title">Thú Cưng<br>100% Khỏe Mạnh</h1>
             <p class="hero-subtitle">Miễn phí vận chuyển &amp; Bảo hành chất lượng</p>
             <a href="<c:url value='/shop'/>" class="btn btn-hero">Mua Ngay</a>

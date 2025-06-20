@@ -44,82 +44,90 @@
                     <input type="number" name="maxPrice" placeholder="Đến" value="${maxPrice != null ? maxPrice : ''}"/>
                 </div>
 
+                <!-- Từ khóa tìm kiếm -->
+                <div class="filter-group">
+                    <h4>Từ khóa</h4>
+                    <input type="text" name="search" placeholder="Tên sản phẩm..." value="${search != null ? search : ''}" />
+                </div>
+
                 <button type="submit">Lọc</button>
             </form>
         </aside>
 
         <!-- Danh sách sản phẩm -->
         <div class="product-list">
-            <!-- Đoạn sản phẩm đã có của bạn -->
-    <div class="product-list">
-        <c:if test="${not empty productPage.content}">
-            <c:forEach var="p" items="${productPage.content}">
-                <div class="product-card">
-                    <a href="<c:url value='/products/${p.id}'/>">
-                        <img class="product-image" src="<c:url value='/${fn:escapeXml(p.image)}'/>" alt="${fn:escapeXml(p.name)}">
-                    </a>
-                    <div class="product-info">
-                        <h3><a href="<c:url value='/products/${p.id}'/>">${fn:escapeXml(p.name)}</a></h3>
-                        <div class="product-price">
-                            <c:choose>
-                                <c:when test="${p.salePrice != null && p.salePrice < p.price}">
-                                    <span class="sale">
-                                        <fmt:formatNumber value="${p.salePrice}" type="currency" currencySymbol="" />đ
-                                    </span>
-                                    <span class="original">
-                                        <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="" />đ
-                                    </span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="normal">
-                                        <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="" />đ
-                                    </span>
-                                </c:otherwise>
-                            </c:choose>
+            <c:if test="${not empty productPage.content}">
+                <c:forEach var="p" items="${productPage.content}">
+                    <div class="product-card">
+                        <a href="<c:url value='/products/${p.id}'/>">
+                            <img class="product-image" src="<c:url value='/${fn:escapeXml(p.image)}'/>" alt="${fn:escapeXml(p.name)}">
+                        </a>
+                        <div class="product-info">
+                            <h3><a href="<c:url value='/products/${p.id}'/>">${fn:escapeXml(p.name)}</a></h3>
+                            <div class="product-price">
+                                <c:choose>
+                                    <c:when test="${p.salePrice != null && p.salePrice < p.price}">
+                                        <span class="sale">
+                                            <fmt:formatNumber value="${p.salePrice}" type="currency" currencySymbol="" />đ
+                                        </span>
+                                        <span class="original">
+                                            <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="" />đ
+                                        </span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="normal">
+                                            <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="" />đ
+                                        </span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <p class="product-quantity">Còn lại: ${p.quantity}</p>
+                            <button class="add-to-cart-btn" data-product-id="${p.id}">Thêm vào giỏ</button>
                         </div>
-                        <p class="product-quantity">Còn lại: ${p.quantity}</p>
-                        <button class="add-to-cart-btn" data-product-id="${p.id}">Thêm vào giỏ</button>
                     </div>
-                </div>
-            </c:forEach>
-        </c:if>
-        <c:if test="${empty productPage.content}">
-            <p>Không có sản phẩm nào phù hợp.</p>
-        </c:if>
-    </div>
+                </c:forEach>
+            </c:if>
+            <c:if test="${empty productPage.content}">
+                <p>Không có sản phẩm nào phù hợp.</p>
+            </c:if>
+        </div>
 
+
+    </div>
     <!-- Phân trang -->
     <div class="pagination">
         <c:if test="${productPage.totalPages > 0}">
+            <c:set var="queryString">
+                categoryId=${selectedCategoryId}&minPrice=${minPrice}&maxPrice=${maxPrice}&search=${search}
+            </c:set>
             <c:if test="${productPage.hasPrevious()}">
-                <a href="<c:url value='/shop?page=${productPage.number - 1}&size=${productPage.size}&categoryId=${selectedCategoryId}'/>">&laquo;</a>
+                <a href="<c:url value='/shop?page=${productPage.number - 1}&size=${productPage.size}&${queryString}'/>">&laquo;</a>
             </c:if>
             <c:forEach begin="0" end="${productPage.totalPages - 1}" varStatus="loop">
                 <a class="${productPage.number == loop.index ? 'active' : ''}"
-                   href="<c:url value='/shop?page=${loop.index}&size=${productPage.size}&categoryId=${selectedCategoryId}'/>">${loop.index + 1}</a>
+                   href="<c:url value='/shop?page=${loop.index}&size=${productPage.size}&${queryString}'/>">${loop.index + 1}</a>
             </c:forEach>
             <c:if test="${productPage.hasNext()}">
-                <a href="<c:url value='/shop?page=${productPage.number + 1}&size=${productPage.size}&categoryId=${selectedCategoryId}'/>">&raquo;</a>
+                <a href="<c:url value='/shop?page=${productPage.number + 1}&size=${productPage.size}&${queryString}'/>">&raquo;</a>
             </c:if>
         </c:if>
     </div>
 </div>
-</div>
-</div>
+
 <%@ include file="layout/footer.jsp" %>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $('.add-to-cart-btn').on('click', function () {
         var productId = $(this).data('product-id');
-        var jwtToken = localStorage.getItem('jwtToken'); // lấy token từ localStorage
+        var jwtToken = localStorage.getItem('jwtToken');
 
         $.ajax({
             url: '/api/cart/items',
             type: 'POST',
             contentType: 'application/json',
             headers: {
-                'Authorization': 'Bearer ' + jwtToken // thêm token vào header
+                'Authorization': 'Bearer ' + jwtToken
             },
             data: JSON.stringify({ productId: productId, quantity: 1 }),
             success: function () {
