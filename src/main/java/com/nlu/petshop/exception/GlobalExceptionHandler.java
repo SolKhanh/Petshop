@@ -4,6 +4,7 @@ package com.nlu.petshop.exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -87,5 +88,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String errorMessage = messageSource.getMessage("error.generic", null, "Đã có lỗi xảy ra.", LocaleContextHolder.getLocale());
         Map<String, Object> body = createErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, errorMessage, request.getDescription(false));
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        String resolvedMessage = ex.getMessage();
+        Map<String, Object> body = createErrorBody(HttpStatus.BAD_REQUEST, resolvedMessage, request.getDescription(false));
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String errorMessage = messageSource.getMessage("error.user.invalidCredentials", null, "Sai tên đăng nhập hoặc mật khẩu.", locale);
+        Map<String, Object> body = createErrorBody(HttpStatus.UNAUTHORIZED, errorMessage, request.getDescription(false));
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED); // Trả về 401 Unauthorized
     }
 }
