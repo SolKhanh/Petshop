@@ -13,17 +13,18 @@
             <!-- Logo -->
             <div class="logo-section">
                 <a class="logo" href="<c:url value='/shop'/>">
-                    <img src="<c:url value='/img/petshoplogo.jpg'/>" alt="PetShop Logo">
-                    <span class="logo-text">PetShop</span>
+                    <img src="<c:url value='/img/petshoplogo.jpg'/>" alt="Logo">
+                    <span class="logo-text">DePetz</span>
                 </a>
             </div>
 
             <!-- Search Bar -->
             <div class="search-section">
-                <form class="search-form" action="<c:url value='/products'/>" method="get">
+                <form class="search-form" action="<c:url value='/shop'/>" method="get">
                     <div class="search-input-group">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" name="search" placeholder="Tìm kiếm sản phẩm, thương hiệu..." class="search-input" />
+                        <input type="text" name="search" placeholder="Tìm kiếm sản phẩm, thương hiệu..."
+                               class="search-input" value="${search != null ? search : ''}" />
                         <button type="submit" class="search-btn">
                             <i class="fas fa-search"></i>
                         </button>
@@ -45,7 +46,7 @@
 
                 <!-- Notifications -->
                 <div class="menu-item notification-item">
-                    <a href="<c:url value='/notifications'/>" class="menu-link">
+                    <a class="menu-link" onclick="navigateWithAuth('/profile')">
                         <div class="icon-wrapper">
                             <i class="fas fa-bell"></i>
                             <span class="badge notification-count" style="display: none;">0</span>

@@ -36,7 +36,8 @@ public class ProductPageController {
             @RequestParam(name = "sort", defaultValue = "name,asc") String[] sort,
             @RequestParam(name = "categoryId", required = false) Integer categoryId,
             @RequestParam(name = "minPrice", required = false) Double minPrice,
-            @RequestParam(name = "maxPrice", required = false) Double maxPrice
+            @RequestParam(name = "maxPrice", required = false) Double maxPrice,
+            @RequestParam(name = "search", required = false) String keyword
     ) {
         String sortField = sort[0];
         Sort.Direction direction = Sort.Direction.ASC;
@@ -46,6 +47,7 @@ public class ProductPageController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
 
         ProductFilterDTO filter = new ProductFilterDTO();
+        filter.setKeyword(keyword);
         filter.setCategoryId(categoryId);
         filter.setMinPrice(minPrice);
         filter.setMaxPrice(maxPrice);
@@ -57,6 +59,7 @@ public class ProductPageController {
         model.addAttribute("selectedCategoryId", categoryId);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("search", keyword);
 
         model.addAttribute("categories", categoryService.getAllCategories()); // << Thêm dòng này
 

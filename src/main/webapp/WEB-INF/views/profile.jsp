@@ -29,6 +29,7 @@
 
     <div class="profile-actions">
         <button class="btn btn-update" onclick="goToUpdate()">Cập nhật thông tin</button>
+        <button class="btn btn-update" onclick="goToChangePwd()">Đổi mật khẩu</button>
         <button class="btn btn-logout" onclick="logout()">Đăng xuất</button>
     </div>
 </div>
@@ -73,10 +74,10 @@
         window.location.href = "/update-profile";
     }
 
-    function logout() {
-        localStorage.removeItem("jwtToken");
-        window.location.href = "/login";
+    function goToChangePwd() {
+        window.location.href = "/change-password";
     }
+
 </script>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>

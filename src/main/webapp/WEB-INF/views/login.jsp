@@ -23,8 +23,7 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    localStorage.setItem("jwtToken", data.token); // Lưu token
-                    alert("Đăng nhập thành công");
+                    localStorage.setItem("jwtToken", data.token);
                     window.location.href = "/shop"; // Chuyển đến trang chính
                 } else {
                     const errorText = await response.text();
