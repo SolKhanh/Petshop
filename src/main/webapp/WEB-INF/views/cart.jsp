@@ -205,7 +205,7 @@
                     <th>Số lượng</th>
                     <th>Giá</th>
                     <th>Tạm tính</th>
-                    <th>Hành động</th>
+                    <th> </th>
                 </tr>
                 </thead>
                 <tbody id="cart-body"></tbody>
@@ -279,7 +279,12 @@
                         const minusBtn = document.createElement("button");
                         minusBtn.textContent = "−";
                         minusBtn.className = "btn btn-outline-secondary";
-                        minusBtn.onclick = () => updateQuantity(item.productId, item.quantity - 1);
+                        minusBtn.onclick = (e) => {
+                            const row = e.target.closest("tr");
+                            const qtySpan = row.querySelector(".quantity-display");
+                            const currentQty = parseInt(qtySpan.textContent);
+                            updateQuantity(item.productId, currentQty - 1, e);
+                        };
 
                         const qtySpan = document.createElement("span");
                         qtySpan.className = "quantity-display";
@@ -288,7 +293,12 @@
                         const plusBtn = document.createElement("button");
                         plusBtn.textContent = "+";
                         plusBtn.className = "btn btn-outline-secondary";
-                        plusBtn.onclick = () => updateQuantity(item.productId, item.quantity + 1);
+                        plusBtn.onclick = (e) => {
+                            const row = e.target.closest("tr");
+                            const qtySpan = row.querySelector(".quantity-display");
+                            const currentQty = parseInt(qtySpan.textContent);
+                            updateQuantity(item.productId, currentQty + 1, e);
+                        };
 
                         qtyContainer.appendChild(minusBtn);
                         qtyContainer.appendChild(qtySpan);
@@ -309,10 +319,11 @@
                         // Cột xóa
                         const deleteCell = document.createElement("td");
                         const deleteBtn = document.createElement("button");
+                        deleteBtn.setAttribute("data-product-id", item.productId);
                         deleteBtn.textContent = "Xóa";
                         deleteBtn.className = "btn btn-danger";
                         console.log("Item to delete:", item.productId);
-                        deleteBtn.onclick = () => deleteItem(item.productId);
+                        deleteBtn.onclick = (e) => deleteItem(item.productId, e);
                         deleteCell.appendChild(deleteBtn);
                         row.appendChild(deleteCell);
 
@@ -337,14 +348,15 @@
         window.location.href = "/order";
     }
 
-    function updateQuantity(productId, newQuantity) {
+    function updateQuantity(productId, newQuantity, event) {
         if (newQuantity < 1) {
-            deleteItem(productId);
+            deleteItem(productId, event);
             return;
         }
 
         const token = localStorage.getItem("jwtToken");
-        fetch(`/api/cart/items/`+productId, {
+
+        fetch(`/api/cart/items/` + productId, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -352,22 +364,44 @@
             },
             body: JSON.stringify({ quantity: newQuantity })
         })
-            .then(res => {
-                if (res.ok) {
-                    location.reload();
-                } else {
-                    alert("Đã hết số lượng sản phẩm.");
+            .then(async res => {
+                if (!res.ok) {
+                    // ❗ Đọc nội dung lỗi từ response JSON
+                    const errorData = await res.json();
+                    throw new Error(errorData.message || "Có lỗi xảy ra khi cập nhật.");
                 }
+
+                return fetch("/api/cart", {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+            })
+            .then(res => res.json())
+            .then(data => {
+                // Cập nhật lại số lượng, tạm tính, tổng giỏ
+                const row = event.target.closest("tr");
+                if (row) {
+                    row.querySelector(".quantity-display").textContent = newQuantity;
+
+                    const priceText = row.children[3].textContent.replace(/\D/g, '');
+                    const price = parseInt(priceText, 10);
+                    row.children[4].textContent = (price * newQuantity).toLocaleString() + " VND";
+                }
+
+                // Tổng giỏ
+                document.getElementById("total-items-count").textContent = data.totalItemsCount.toLocaleString();
+                document.getElementById("total-amount").textContent = data.totalAmount.toLocaleString();
             })
             .catch(error => {
                 console.error(error);
-                alert("Lỗi khi cập nhật.");
+                alert("❌ " + error.message);
             });
     }
 
-    function deleteItem(productId) {
+
+
+    function deleteItem(productId, event) {
         const token = localStorage.getItem("jwtToken");
-        fetch(`/api/cart/items/`+productId, {
+        fetch(`/api/cart/items/` + productId, {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + token
@@ -375,18 +409,36 @@
         })
             .then(res => {
                 if (res.ok) {
-                    location.reload();
+                    const row = event.target.closest("tr"); // dùng chính nút vừa click
+                    if (row) row.remove();
+
+                    // Cập nhật tổng mới
+                    return fetch("/api/cart", {
+                        headers: { "Authorization": "Bearer " + token }
+                    });
                 } else {
-                    console.log(res)
-                    console.log(productId)
-                    alert("Không thể xóa sản phẩm.");
+                    throw new Error("Không thể xóa sản phẩm.");
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.items.length === 0) {
+                    document.getElementById("cart-table").style.display = "none";
+                    document.getElementById("cart-summary").style.display = "none";
+                    document.getElementById("checkout-button").style.display = "none";
+                    document.getElementById("cart-empty").style.display = "block";
+                } else {
+                    document.getElementById("total-items-count").textContent = data.totalItemsCount.toLocaleString();
+                    document.getElementById("total-amount").textContent = data.totalAmount.toLocaleString();
                 }
             })
             .catch(error => {
                 console.error(error);
-                alert("Lỗi khi xóa sản phẩm.");
+                alert(error.message);
             });
     }
+
+
 </script>
 </body>
 </html>

@@ -20,6 +20,7 @@ public class InforUser {
     private String email;
     private String phone;
     private String address;
+    @Column(length = 1024)
     private String avt;
 
     @OneToOne

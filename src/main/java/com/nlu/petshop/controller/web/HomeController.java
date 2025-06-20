@@ -84,4 +84,10 @@ public class HomeController {
 
     @GetMapping("/orderhistory")
     public String showOrdersPage() { return "orderhistory"; }
+
+    @GetMapping("/update-profile")
+    public String showUpdateProfilePage() { return "update-profile"; }
+
+    @GetMapping("/change-password")
+    public String showChangePwdPage() { return "change-password"; }
 }

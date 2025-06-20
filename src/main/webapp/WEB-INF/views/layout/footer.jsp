@@ -10,7 +10,7 @@
     <div class="container">
         <div class="footer-content">
             <div class="footer-section">
-                <h5>Về PetShop</h5>
+                <h5>Về DePetz</h5>
                 <p>Chúng tôi là cửa hàng thú cưng uy tín, cung cấp những sản phẩm chất lượng cao cho người bạn bốn chân của bạn.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -33,7 +33,7 @@
             <div class="footer-section">
                 <h5>Liên Hệ</h5>
                 <ul>
-                    <li><i class="fa fa-envelope"></i> contact@petshop.com</li>
+                    <li><i class="fa fa-envelope"></i> contact@depetz.com</li>
                     <li><i class="fa fa-phone"></i> (84) 123 456 789</li>
                     <li><i class="fa fa-map-marker-alt"></i> Hồ Chí Minh, Việt Nam</li>
                 </ul>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2025 PetShop. Tất cả quyền được bảo lưu.</p>
+            <p>&copy; 2025 DePetz. Tất cả quyền được bảo lưu.</p>
         </div>
     </div>
 </footer>

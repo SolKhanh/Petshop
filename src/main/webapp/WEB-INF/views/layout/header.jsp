@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="<c:url value='/js/auth-navigation.js'/>"></script>
+<%--<script src="<c:url value='/js/auth-navigation.js'/>"></script>--%>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/header.css'/>" type="text/css">
@@ -13,17 +13,18 @@
             <!-- Logo -->
             <div class="logo-section">
                 <a class="logo" href="<c:url value='/shop'/>">
-                    <img src="<c:url value='/img/petshoplogo.jpg'/>" alt="PetShop Logo">
-                    <span class="logo-text">PetShop</span>
+                    <img src="<c:url value='/img/petshoplogo.jpg'/>" alt="Logo">
+                    <span class="logo-text">DePetz</span>
                 </a>
             </div>
 
             <!-- Search Bar -->
             <div class="search-section">
-                <form class="search-form" action="<c:url value='/products'/>" method="get">
+                <form class="search-form" action="<c:url value='/shop'/>" method="get">
                     <div class="search-input-group">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" name="search" placeholder="Tìm kiếm sản phẩm, thương hiệu..." class="search-input" />
+                        <input type="text" name="search" placeholder="Tìm kiếm sản phẩm, thương hiệu..."
+                               class="search-input" value="${search != null ? search : ''}" />
                         <button type="submit" class="search-btn">
                             <i class="fas fa-search"></i>
                         </button>
@@ -45,7 +46,7 @@
 
                 <!-- Notifications -->
                 <div class="menu-item notification-item">
-                    <a href="<c:url value='/notifications'/>" class="menu-link">
+                    <a class="menu-link" onclick="navigateWithAuth('/profile')">
                         <div class="icon-wrapper">
                             <i class="fas fa-bell"></i>
                             <span class="badge notification-count" style="display: none;">0</span>
@@ -85,7 +86,7 @@
                                 <i class="fas fa-user-circle"></i>
                                 <span>Thông tin cá nhân</span>
                             </a>
-                            <a href="<c:url value='/order-history'/>" class="dropdown-item">
+                            <a href="#" onclick="navigateWithAuth('/orderhistory')" class="dropdown-item">
                                 <i class="fas fa-box"></i>
                                 <span>Đơn hàng của tôi</span>
                             </a>
@@ -328,4 +329,30 @@
             window.location.href = "/login"; // Hoặc trang chủ
         });
     }
+    function navigateWithAuth(targetUrl) {
+        const token = localStorage.getItem("jwtToken");
+        if (!token) {
+            window.location.href = "/login";
+            return;
+        }
+
+        fetch(targetUrl, {
+            method: "GET", // hoặc HEAD nếu server hỗ trợ
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = targetUrl;
+                } else {
+                    window.location.href = "/login";
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi điều hướng có xác thực:", error);
+                window.location.href = "/login";
+            });
+    }
+
 </script>

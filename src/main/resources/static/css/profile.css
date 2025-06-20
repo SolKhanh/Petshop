@@ -1,0 +1,98 @@
+.profile-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.profile-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px auto;
+    display: block;
+    border: 2px solid #ccc;
+}
+.profile-row {
+    margin-bottom: 15px;
+}
+.profile-label {
+    font-weight: bold;
+}
+.profile-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-update {
+    background-color: #4CAF50;
+    color: white;
+}
+.btn-logout {
+    background-color: #f44336;
+    color: white;
+}
+.update-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.update-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+input[type="text"], input[type="email"], input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.form-actions {
+    text-align: center;
+    margin-top: 25px;
+}
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-save {
+    background-color: #4CAF50;
+    color: white;
+}
+.btn-cancel {
+    background-color: #ccc;
+    color: black;
+}
+.avatar-preview {
+    display: block;
+    margin: 10px auto;
+    max-width: 120px;
+    border-radius: 50%;
+}

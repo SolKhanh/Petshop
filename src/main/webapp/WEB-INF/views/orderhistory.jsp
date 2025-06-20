@@ -1,11 +1,15 @@
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link rel="stylesheet" href="<c:url value='/css/orderhistory.css'/>" type="text/css">
 <!DOCTYPE html>
 <html>
 <head>
     <title>Lịch Sử Đơn Hàng</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
+
+<jsp:include page="layout/header.jsp"></jsp:include>
 <body>
 <div class="container mt-5">
     <h2 class="mb-4">Lịch Sử Đơn Hàng</h2>
@@ -16,7 +20,7 @@
         Bạn chưa có đơn hàng nào.
     </div>
 </div>
-
+<jsp:include page="layout/footer.jsp"></jsp:include>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const token = localStorage.getItem("jwtToken");
@@ -39,6 +43,7 @@
 
                 if (data.content && data.content.length > 0) {
                     data.content.forEach(order => {
+                        console.log(order);
                         const card = document.createElement("div");
                         card.className = "card mb-4";
 
@@ -47,17 +52,54 @@
 
                         const orderHeader = document.createElement("h5");
                         orderHeader.className = "card-title";
-                        orderHeader.textContent = `Đơn hàng #${order.id} - Trạng thái: ${order.status}`;
 
-                        const orderInfo = document.createElement("p");
-                        orderInfo.innerHTML = `
-                        <strong>Ngày đặt:</strong> ${new Date(order.orderDate).toLocaleString()}<br>
-                        <strong>Khách hàng:</strong> ${order.customerName} - ${order.phone}<br>
-                        <strong>Địa chỉ:</strong> ${order.shippingAddress}<br>
-                        <strong>Email:</strong> ${order.email}<br>
-                        <strong>Ghi chú:</strong> ${order.note || "Không"}<br>
-                        <strong>Tổng tiền:</strong> ${order.totalAmount.toLocaleString()} VND
-                    `;
+// Gộp chuỗi thành phần tử con thay vì textContent dài
+                        const strong1 = document.createElement("strong");
+                        strong1.textContent = "Đơn hàng #";
+
+                        const orderIdSpan = document.createElement("span");
+                        orderIdSpan.textContent = order.id;
+
+                        const strong2 = document.createElement("strong");
+                        strong2.textContent = " - Trạng thái: ";
+
+                        const statusSpan = document.createElement("span");
+                        statusSpan.textContent = order.status;
+
+// Gắn lần lượt vào orderHeader
+                        orderHeader.appendChild(strong1);
+                        orderHeader.appendChild(orderIdSpan);
+                        orderHeader.appendChild(strong2);
+                        orderHeader.appendChild(statusSpan);
+
+                        const orderDate = new Date(order.orderDate);
+                        const formattedDate = orderDate.toLocaleString("vi-VN", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit"
+                        });
+                        const orderInfo = document.createElement("div"); // Đổi từ <p> sang <div> để chứa nhiều phần tử con
+
+                        const fields = [
+                            { label: "Ngày đặt", value: formattedDate },
+                            { label: "Khách hàng", value: order.customerName + ' - Số điện thoại: ' + order.phone },
+                            { label: "Địa chỉ", value: order.shippingAddress },
+                            { label: "Email", value: order.email },
+                            { label: "Ghi chú", value: order.note || "Không" },
+                            { label: "Tổng tiền", value: order.totalAmount.toLocaleString() + 'VND' }
+                        ];
+
+                        fields.forEach(f => {
+                            const line = document.createElement("p");
+                            const strong = document.createElement("strong");
+                            strong.textContent = f.label + ": ";
+                            line.appendChild(strong);
+                            line.appendChild(document.createTextNode(f.value));
+                            orderInfo.appendChild(line);
+                        });
 
                         // Bảng sản phẩm trong đơn hàng
                         const table = document.createElement("table");

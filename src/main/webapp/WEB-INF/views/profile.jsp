@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="layout/header.jsp"></jsp:include>
 
@@ -5,50 +6,12 @@
 <head>
     <title>Thông tin cá nhân</title>
     <link rel="stylesheet" href="<c:url value='/css/style.css'/>" type="text/css">
-    <style>
-        .profile-container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 30px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        .profile-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .profile-row {
-            margin-bottom: 15px;
-        }
-        .profile-label {
-            font-weight: bold;
-        }
-        .profile-actions {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .btn {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-update {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .btn-logout {
-            background-color: #f44336;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value='/css/profile.css'/>" type="text/css">
 </head>
 <body>
 <div class="profile-container">
     <div class="profile-header">
+        <img id="avatar" class="profile-avatar" src="#" alt="Avatar" style="display: none;">
         <h2>Thông tin cá nhân</h2>
     </div>
     <div class="profile-row">
@@ -66,6 +29,7 @@
 
     <div class="profile-actions">
         <button class="btn btn-update" onclick="goToUpdate()">Cập nhật thông tin</button>
+        <button class="btn btn-update" onclick="goToChangePwd()">Đổi mật khẩu</button>
         <button class="btn btn-logout" onclick="logout()">Đăng xuất</button>
     </div>
 </div>
@@ -84,15 +48,21 @@
         })
             .then(response => {
                 if (!response.ok) throw new Error("Không thể tải thông tin.");
-                console.log(response);
                 return response.json();
             })
             .then(data => {
-                console.log("user data: " + data);
                 document.getElementById("username").textContent = data.username;
                 document.getElementById("email").textContent = data.email;
                 document.getElementById("phone").textContent = data.phone;
                 document.getElementById("address").textContent = data.address;
+
+                // Avatar
+                if (data.avatar || data.avt) {
+                    const avatarUrl = data.avatar || data.avt;
+                    const avatarImg = document.getElementById("avatar");
+                    avatarImg.src = avatarUrl;
+                    avatarImg.style.display = "block";
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -101,13 +71,13 @@
     });
 
     function goToUpdate() {
-        window.location.href = "/update-profile.jsp";
+        window.location.href = "/update-profile";
     }
 
-    function logout() {
-        localStorage.removeItem("jwtToken");
-        window.location.href = "/login";
+    function goToChangePwd() {
+        window.location.href = "/change-password";
     }
+
 </script>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
